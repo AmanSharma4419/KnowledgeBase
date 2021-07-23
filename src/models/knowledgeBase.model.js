@@ -23,6 +23,9 @@ class KnowledgeBaseDetails extends Model {
     static async createKnowledgeBase(KnowledgeBaseInfo) {
         return this.create(KnowledgeBaseInfo);
     }
+    static async updateKnowledgeBase({ knowledgeBaseInfo, id }) {
+        return this.findByIdAndUpdate(id, knowledgeBaseInfo, { new: true });
+    }
     static async totalCountForDraft() {
         return this.find({ isPublished: false }).count()
     }
@@ -41,6 +44,10 @@ class KnowledgeBaseDetails extends Model {
     }
     static async totalCountForView() {
         return this.find({ isPublished: true }).count()
+    }
+
+    static async getKnowledgeById(id) {
+        return this.findById(id)
     }
 }
 

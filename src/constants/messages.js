@@ -18,9 +18,11 @@ module.exports = {
   PASSWORD_NOT_MATCHED: "User password not matched",
   LOGIN_SUCCESS: "Login success",
   KNOWLEGE_BASE_CREATED: "Knowledge base created",
+  KNOWLEGE_BASE_UPATED: "Knowledge base updated",
   INVALID_PAGE: "Invalid Page",
   INVALID_LIMIT: "Invalid Limit",
   TOPIC_LISTED_SUCESSFULLY: "Topic Listed Sucessfully",
   VIEW_LISTED_SUCESSFULLY: "All Views Listed Sucessfully",
-  NO_DATA_FOUND: "No data found"
+  NO_DATA_FOUND: "No data found",
+  DRAFT_FETCHED_SUCESSFULLY: "Draft fetched sucessfully"
 }

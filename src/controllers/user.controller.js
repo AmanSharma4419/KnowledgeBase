@@ -18,6 +18,7 @@ const {
   checkFileExt,
   createDirectory
 } = require("./../helpers/utils.helper");
+
 const emailHelper = require("../helpers/email.helper");
 
 const UserProfile = mongoose.model(models.USER_PROFILE);
@@ -168,6 +169,43 @@ module.exports.createKnowledgeBase = async (req, res) => {
   }
 }
 
+module.exports.getKnowledgeBaseById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const result = await KnowledgeBase.getKnowledgeById(id)
+    return res.send({
+      statusCode: 200,
+      message: messages.DRAFT_FETCHED_SUCESSFULLY,
+      data: result,
+    });
+  } catch (error) {
+    return res.send({
+      statusCode: 400,
+      message: error.message,
+    });
+  }
+}
+module.exports.updateKnowledgeBase = async (req, res) => {
+  try {
+    const userId = req.userData._id;
+    const id = req.params.id;
+    const { category, topic, knowledgeBase, isPublished } = req.validatedParams
+    const knowledgeBaseInfo = { userId: userId, category: category, topic: topic, knowledgeBase: knowledgeBase, isPublished: isPublished }
+    console.log(knowledgeBaseInfo, "in the kkkkk")
+    const result = await KnowledgeBase.updateKnowledgeBase({ knowledgeBaseInfo, id })
+    console.log(result, "in the rr")
+    return res.send({
+      statusCode: 200,
+      message: messages.KNOWLEGE_BASE_UPATED,
+      data: result,
+    });
+  } catch (error) {
+    return res.send({
+      statusCode: 400,
+      message: error.message,
+    });
+  }
+}
 module.exports.getAllDraftList = async (req, res) => {
   try {
     const userId = req.userData._id;
@@ -186,6 +224,7 @@ module.exports.getAllDraftList = async (req, res) => {
     });
   }
 }
+
 module.exports.getAllTopicListByCategory = async (req, res) => {
   try {
     const { category } = req.validatedParams
