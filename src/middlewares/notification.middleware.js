@@ -5,7 +5,6 @@ const common = require('../middlewares/common.middleware');
 const { SUPPORT_EMAIL_ME, SUPPORT_EMAIL_ORG, PROMOTE_SEND_SMS_SENDER_OTP, SMPP_PE_ID } = require('./../appConfig');
 const Notification = mongoose.model(models.NOTIFICATION);
 const emailHelper = require('../helpers/email.helper');
-const SmsHelper = require('../helpers/sms.helper');
 
 module.exports.createNotification = async (userData, responseData, event, mediaType) => {
   let msgContent = ''

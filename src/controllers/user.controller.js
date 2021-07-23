@@ -3,7 +3,6 @@ const Joi = require("@hapi/joi");
 const mongoose = require("mongoose");
 const debug = require("debug")("app:userController");
 const { messages, models, enums } = require("../constants/index");
-const SmsHelper = require("../helpers/sms.helper");
 const common = require("./../middlewares/common.middleware");
 const Notification = require('../middlewares/notification.middleware');
 const NotificationData = mongoose.model(models.NOTIFICATION);

@@ -80,15 +80,7 @@ module.exports.startServer = async () => {
 
   await listen({ server: this.server });
 
-  //require('./scripts/syncDocumentType').init();
-  // require('./scripts/syncCountry').init();
 
-  // require('./scripts/syncDocumentType').init();
-  // require('./scripts/syncCountry').init();
-  // require('./scripts/syncState').init();
-  // require('./scripts/syncCities').init();
-  // Connect to redis
-  //await require('./helpers/redis.helper').connect();
   return Promise.resolve();
 };
 
