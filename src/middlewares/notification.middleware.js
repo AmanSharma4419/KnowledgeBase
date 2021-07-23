@@ -19,6 +19,14 @@ module.exports.createNotification = async (userData, responseData, event, mediaT
           await emailHelper.sendEmail(userData.email, "Registeration Notification", obj, event, '');
         }
       }
+    case enums.NOTIFICATION_EVENT.USER_LOGIN:
+      debug(`${enums.NOTIFICATION_EVENT.USER_LOGIN}`);
+      if (mediaType.includes(enums.MEDIA_TYPE.MAIL)) {
+        let obj = {};
+        if (userData.email != '') {
+          await emailHelper.sendEmail(userData.email, "Login Notification", obj, event, '');
+        }
+      }
       break;
   }
 }

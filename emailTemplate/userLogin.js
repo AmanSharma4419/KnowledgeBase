@@ -1,8 +1,8 @@
 const { LOGO, SUPPORT_EMAIL } = require('../src/appConfig');
 module.exports = {
-  template: (sendMailData) => {
-    resetpasswordlink = sendMailData.link
-    return `<!doctype html>
+    template: (sendMailData) => {
+        resetpasswordlink = sendMailData.link
+        return `<!doctype html>
 <html>
 <head>
 <meta charset="utf-8">
@@ -15,11 +15,9 @@ module.exports = {
 <img src=${LOGO} ></div>
 <div style="color:#fff; font-size:13px; font-family:Arial, Helvetica, sans-serif; line-height:20px; text-align:left">
 <br>
-Hi user your registeration  is successfully done <br>
+Hi user your login  is successfully done <br>
 <br>
 <br>
-
-Thank you for registering with us<br>
 <br>
 Note: <span style="color:#999; font-size:11px">Please do not reply to this email. It is an auto generated email. For any query or clarification, please email at,
 <span style="text-decoration:underline">${SUPPORT_EMAIL}</span><br>
@@ -41,6 +39,6 @@ Powered By Verifyer. © 2020 Verifyer Technologies Pvt. Ltd.
 </body>
 </html>`
 
-  }
+    }
 }
 

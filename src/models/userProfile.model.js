@@ -28,7 +28,12 @@ class UserDetailsRec extends Model {
   static async createUser(userInfo) {
     return this.create(userInfo);
   }
-
+  static async checkUserAvalibilty(email) {
+    return this.findOne({ email: email });
+  }
+  static async userLogin({ email, password }) {
+    return this.findOne({ $and: [{ email: email }, { password: password }] });
+  }
 }
 
 schema.loadClass(UserDetailsRec);

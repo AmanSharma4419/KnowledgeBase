@@ -22,6 +22,12 @@ class OtpVerification extends Model {
     static async saveUserOtp(otpInfo) {
         return this.create(otpInfo);
     }
+    static async verifyOtp({ otp, userId }) {
+        return this.findOne({ $and: [{ userId: userId }, { otp: otp }] });
+    }
+    static async updateOtpStatus(userId) {
+        return this.findOneAndUpdate({ userId: userId }, { isVerifyedStatus: true }, { new: true });
+    }
 }
 
 schema.loadClass(OtpVerification);

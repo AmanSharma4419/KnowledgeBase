@@ -44,17 +44,16 @@ module.exports.signUp = async (req, res) => {
         message: messages.PASSWORD_DOES_NOT_MATCH,
       });
     }
-
     const userInfo = { email: email, password: getHasedPassword(password, saltRounds), plainPassword: password, category: category }
     const result = await UserProfile.createUser(userInfo)
     var data = { ...result._doc }
     if (result) {
       const otp = generateOtp()
-      data.otp = otp
-      delete data.plainPassword
       const { email, _id } = result
       const otpInfo = { email: email, userId: _id, otp: otp }
       await OtpVerification.saveUserOtp(otpInfo)
+      data.otp = otp
+      delete data.plainPassword
     }
     let mediaType = ['MAIL'];
     await Notification.createNotification(result, "", enums.NOTIFICATION_EVENT.USER_REGISTERATION, mediaType);
@@ -79,6 +78,69 @@ module.exports.listCategory = async (req, res) => {
       message: messages.CATEGORY_LISTED_SUCESSFULLY,
       data: result,
     });
+  } catch (error) {
+    return res.send({
+      statusCode: 400,
+      message: error.message,
+    });
+  }
+}
+
+module.exports.verifyOtp = async (req, res) => {
+  try {
+    const { otp, userId } = req.validatedParams
+    const result = await OtpVerification.verifyOtp({ otp: otp, userId: userId })
+    if (result) {
+      await OtpVerification.updateOtpStatus(result.userId)
+      return res.send({
+        statusCode: 200,
+        message: messages.OTP_VERIFICATION_DONE,
+      });
+    } else {
+      return res.send({
+        statusCode: 200,
+        message: messages.OTP_VERIFICATION_FAIL,
+      });
+    }
+  } catch (error) {
+    return res.send({
+      statusCode: 400,
+      message: error.message,
+    });
+  }
+}
+
+module.exports.signIn = async (req, res) => {
+  try {
+    const { email, password } = req.validatedParams
+    const result = await UserProfile.checkUserAvalibilty(email)
+    if (!result) {
+      return res.send({ statusCode: 400, message: messages.EMAIL_NOT_FOUND });
+    }
+    var user = { ...result._doc }
+    const isValide = await comparedHased(password, result.password);
+    if (isValide) {
+      const token = await generateToken({
+        user: {
+          userId: result._id,
+        },
+      });
+      delete user.password
+      delete user.plainPassword
+      user.token = token
+      let mediaType = ['MAIL'];
+      await Notification.createNotification(result, "", enums.NOTIFICATION_EVENT.USER_LOGIN, mediaType);
+      return res.send({
+        statusCode: 200,
+        message: messages.LOGIN_SUCCESS,
+        data: user,
+      });
+    } else {
+      return res.send({
+        statusCode: 400,
+        message: messages.PASSWORD_NOT_MATCHED
+      });
+    }
   } catch (error) {
     return res.send({
       statusCode: 400,
