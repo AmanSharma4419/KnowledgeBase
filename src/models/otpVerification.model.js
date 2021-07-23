@@ -9,10 +9,11 @@ const {
 
 const schema = new Schema({
     userId: { type: String, default: "", index: true },
-    email: { type: String, default: "", index: true },
+    email: { type: String, default: "" },
     otp: { type: String, default: '' },
     udt: { type: Date, default: new Date() },
     cdt: { type: Date, default: new Date() },
+    isVerifyedStatus: { type: Boolean, default: false },
     uapdt: { type: Number, default: secondsSinceEpoch },
     capdt: { type: Number, default: secondsSinceEpoch },
 });

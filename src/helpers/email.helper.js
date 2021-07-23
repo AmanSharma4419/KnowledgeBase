@@ -22,7 +22,7 @@ exports.sendEmail = async function (to, subject, data, event, replyTo = '') {
   // }
   let MailerOption = await ConfigModel.getMailerOption()
   console.log(MailerOption, "i the mmmy")
-  if (MailerOption) {
+  if (MailerOption.isZohoSendMail) {
     const transporter = nodeMailer.createTransport({
       host: SMTP_HOST,
       port: SMTP_PORT,
