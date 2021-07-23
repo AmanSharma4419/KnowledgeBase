@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const router = new Router();
-
+const { auth } = require("../middlewares/auth.middleware");
 const requestValidator = require("../middlewares/requestValidator.middleware");
 
 const userController = require("../controllers/user.controller")
@@ -11,5 +11,6 @@ router.post("/register", requestValidator(userValidator.signUp), userController.
 router.post("/login", requestValidator(userValidator.signIn), userController.signIn);
 router.get("/categoryList", userController.listCategory);
 router.post("/verifyOtp", requestValidator(userValidator.verifyOtp), userController.verifyOtp);
+router.post("/createKnowledgeBase", auth, requestValidator(userValidator.createKnowledgeBase), userController.createKnowledgeBase);
 
 module.exports = router;

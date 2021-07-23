@@ -4,5 +4,6 @@ module.exports = {
   CONFIG: "config",
   SHORTURL: "shortUrl",
   CATEGORY: "category",
-  OTP_VERIFICATION: "otp_verification"
+  OTP_VERIFICATION: "otp_verification",
+  KNOWLEDGE_BASE: "Knowledge_base"
 };

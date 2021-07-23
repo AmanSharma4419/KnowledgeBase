@@ -18,3 +18,10 @@ module.exports.verifyOtp = Joi.object({
   userId: Joi.string().required().trim().description("userId").error(new Error(messages.USERID_REQUIRED)),
   otp: Joi.string().required().trim().description("otp").error(new Error(messages.OPT_REQUIRED)),
 });
+
+module.exports.createKnowledgeBase = Joi.object({
+  topic: Joi.string().required().trim().description("topic").error(new Error(messages.INVALID_TOPIC)),
+  category: Joi.string().required().trim().error(new Error(messages.INVALID_CATEGORY)),
+  knowledgeBase: Joi.string().required().trim().description("knowledgeBase").error(new Error(messages.INVALID_KNOWLEDGEBASE)),
+  isPublished: Joi.boolean().optional().description("isPublished").error(new Error(messages.INVALID_ISPUBLISHED)),
+});

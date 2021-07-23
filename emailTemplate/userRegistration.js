@@ -1,7 +1,7 @@
 const { LOGO, SUPPORT_EMAIL } = require('../src/appConfig');
 module.exports = {
   template: (sendMailData) => {
-    resetpasswordlink = sendMailData.link
+    otp = sendMailData.otp
     return `<!doctype html>
 <html>
 <head>
@@ -15,7 +15,7 @@ module.exports = {
 <img src=${LOGO} ></div>
 <div style="color:#fff; font-size:13px; font-family:Arial, Helvetica, sans-serif; line-height:20px; text-align:left">
 <br>
-Hi user your registeration  is successfully done <br>
+Hi user your registeration  is successfully done and your otp is ${otp} <br>
 <br>
 <br>
 

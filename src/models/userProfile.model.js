@@ -3,7 +3,7 @@ const { ELA_UNABLE } = require("./../appConfig");
 
 const { models } = require('./../constants/index');
 const {
-  getHasedPassword, comparedHased, secondsSinceEpoch
+  secondsSinceEpoch
 } = require("../helpers/utils.helper");
 
 
@@ -24,7 +24,9 @@ class UserDetailsRec extends Model {
   static async checkEmailAvaliabilty(email) {
     return this.find({ email: email });
   }
-
+  static async getUserDataByUserId(userId) {
+    return this.findById(userId);
+  }
   static async createUser(userInfo) {
     return this.create(userInfo);
   }

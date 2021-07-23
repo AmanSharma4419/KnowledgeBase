@@ -24,6 +24,7 @@ const emailHelper = require("../helpers/email.helper");
 const UserProfile = mongoose.model(models.USER_PROFILE);
 const Category = mongoose.model(models.CATEGORY);
 const OtpVerification = mongoose.model(models.OTP_VERIFICATION)
+const KnowledgeBase = mongoose.model(models.KNOWLEDGE_BASE)
 
 const saltRounds = 10;
 let apocTime = Math.round(new Date() / 1000);
@@ -56,7 +57,7 @@ module.exports.signUp = async (req, res) => {
       delete data.plainPassword
     }
     let mediaType = ['MAIL'];
-    await Notification.createNotification(result, "", enums.NOTIFICATION_EVENT.USER_REGISTERATION, mediaType);
+    await Notification.createNotification(data, "", enums.NOTIFICATION_EVENT.USER_REGISTERATION, mediaType);
     return res.send({
       statusCode: 200,
       message: messages.SIGNUP_SUCESS,
@@ -141,6 +142,25 @@ module.exports.signIn = async (req, res) => {
         message: messages.PASSWORD_NOT_MATCHED
       });
     }
+  } catch (error) {
+    return res.send({
+      statusCode: 400,
+      message: error.message,
+    });
+  }
+}
+
+module.exports.createKnowledgeBase = async (req, res) => {
+  try {
+    const userId = req.userData._id;
+    const { category, topic, knowledgeBase, isPublished } = req.validatedParams
+    const knowledgeBaseInfo = { userId: userId, category: category, topic: topic, knowledgeBase: knowledgeBase, isPublished: isPublished }
+    const result = await KnowledgeBase.createKnowledgeBase(knowledgeBaseInfo)
+    return res.send({
+      statusCode: 200,
+      message: messages.KNOWLEGE_BASE_CREATED,
+      data: result,
+    });
   } catch (error) {
     return res.send({
       statusCode: 400,

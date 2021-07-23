@@ -8,17 +8,16 @@ const emailHelper = require('../helpers/email.helper');
 const SmsHelper = require('../helpers/sms.helper');
 
 module.exports.createNotification = async (userData, responseData, event, mediaType) => {
-  console.log("userData : ", userData, "/n ResponseData : ", responseData, "/n Event ", event, "/n mediaType ", mediaType)
   let msgContent = ''
   switch (event) {
     case enums.NOTIFICATION_EVENT.USER_REGISTERATION:
       debug(`${enums.NOTIFICATION_EVENT.USER_REGISTERATION}`);
       if (mediaType.includes(enums.MEDIA_TYPE.MAIL)) {
-        let obj = {};
         if (userData.email != '') {
-          await emailHelper.sendEmail(userData.email, "Registeration Notification", obj, event, '');
+          await emailHelper.sendEmail(userData.email, "Registeration Notification", userData, event, '');
         }
       }
+      break;
     case enums.NOTIFICATION_EVENT.USER_LOGIN:
       debug(`${enums.NOTIFICATION_EVENT.USER_LOGIN}`);
       if (mediaType.includes(enums.MEDIA_TYPE.MAIL)) {

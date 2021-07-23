@@ -12,17 +12,15 @@ const ConfigModel = mongoose.model(models.CONFIG);
 const SibApiV3Sdk = require('sib-api-v3-sdk');
 
 exports.sendEmail = async function (to, subject, data, event, replyTo = '') {
-  console.log(to, subject, event, "kkkkk")
   let template = '';
   if (event === enums.NOTIFICATION_EVENT.USER_REGISTERATION) {
     template = userRegistrationTemplate.template(data);
-  }
-  if (event === enums.NOTIFICATION_EVENT.USER_LOGIN) {
+  } else if (event === enums.NOTIFICATION_EVENT.USER_LOGIN) {
     template = userLoginTemplate.template(data);
   }
 
   let MailerOption = await ConfigModel.getMailerOption()
-  console.log(MailerOption, "i the mmmy")
+  // console.log(MailerOption, "i the mmmy")
   // isZohoSendMail
   if (MailerOption) {
     const transporter = nodeMailer.createTransport({

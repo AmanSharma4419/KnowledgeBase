@@ -3,7 +3,7 @@ const { ELA_UNABLE } = require("./../appConfig");
 
 const { models } = require('./../constants/index');
 const {
-    getHasedPassword, comparedHased, secondsSinceEpoch
+    secondsSinceEpoch
 } = require("../helpers/utils.helper");
 
 
