@@ -12,5 +12,8 @@ router.post("/login", requestValidator(userValidator.signIn), userController.sig
 router.get("/categoryList", userController.listCategory);
 router.post("/verifyOtp", requestValidator(userValidator.verifyOtp), userController.verifyOtp);
 router.post("/createKnowledgeBase", auth, requestValidator(userValidator.createKnowledgeBase), userController.createKnowledgeBase);
+router.post("/getAllDraftList", auth, requestValidator(userValidator.getAllDraftList), userController.getAllDraftList);
+router.post("/getAllTopicListByCategory", requestValidator(userValidator.getAllTopicListByCategory), userController.getAllTopicListByCategory);
+router.post("/getAllViewListByTopic", requestValidator(userValidator.getAllViewListByTopic), userController.getAllViewListByTopic);
 
 module.exports = router;

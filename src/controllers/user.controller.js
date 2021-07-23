@@ -167,3 +167,70 @@ module.exports.createKnowledgeBase = async (req, res) => {
     });
   }
 }
+
+module.exports.getAllDraftList = async (req, res) => {
+  try {
+    const userId = req.userData._id;
+    const { pageNo, limit } = req.validatedParams
+    const result = await KnowledgeBase.getAllDraftList({ userId, pageNo, limit })
+    const totalCount = await KnowledgeBase.totalCountForDraft()
+    return res.send({
+      statusCode: 200,
+      message: messages.DRAFT_LISTED_SUCESSFULLY,
+      data: { result, totalCount },
+    });
+  } catch (error) {
+    return res.send({
+      statusCode: 400,
+      message: error.message,
+    });
+  }
+}
+module.exports.getAllTopicListByCategory = async (req, res) => {
+  try {
+    const { category } = req.validatedParams
+    const result = await KnowledgeBase.getAllTopicsByCategory(category)
+    if (result.length > 0) {
+      var arr = []
+      result.map((val, index) => {
+        return arr.push(val.topic)
+      })
+      const topicList = [...new Set(arr)]
+      return res.send({
+        statusCode: 200,
+        message: messages.TOPIC_LISTED_SUCESSFULLY,
+        data: topicList,
+      });
+    } else {
+      return res.send({
+        statusCode: 200,
+        message: messages.NO_DATA_FOUND,
+        data: result,
+      });
+    }
+  } catch (error) {
+    return res.send({
+      statusCode: 400,
+      message: error.message,
+    });
+  }
+}
+
+module.exports.getAllViewListByTopic = async (req, res) => {
+  try {
+    const { pageNo, limit, topic } = req.validatedParams
+    const result = await KnowledgeBase.getAllViewListByTopic({ topic, pageNo, limit })
+    const totalCount = await KnowledgeBase.totalCountForView()
+    console.log(totalCount)
+    return res.send({
+      statusCode: 200,
+      message: messages.VIEW_LISTED_SUCESSFULLY,
+      data: result,
+    });
+  } catch (error) {
+    return res.send({
+      statusCode: 400,
+      message: error.message,
+    });
+  }
+}
