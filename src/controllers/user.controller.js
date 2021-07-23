@@ -51,6 +51,7 @@ module.exports.signUp = async (req, res) => {
     if (result) {
       const otp = generateOtp()
       data.otp = otp
+      delete data.plainPassword
       const { email, _id } = result
       const otpInfo = { email: email, userId: _id, otp: otp }
       await OtpVerification.saveUserOtp(otpInfo)
