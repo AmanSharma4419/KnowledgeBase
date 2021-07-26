@@ -15,8 +15,7 @@ module.exports = {
 <img src=${LOGO} ></div>
 <div style="color:#fff; font-size:13px; font-family:Arial, Helvetica, sans-serif; line-height:20px; text-align:left">
 <br>
-Hi user your login  is successfully done <br>
-<br>
+Hi User,<br> your login  is successfully done <br>
 <br>
 <br>
 Note: <span style="color:#999; font-size:11px">Please do not reply to this email. It is an auto generated email. For any query or clarification, please email at,

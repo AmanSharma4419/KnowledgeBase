@@ -21,12 +21,12 @@ Hi user your registeration  is successfully done and your otp is ${otp} <br>
 
 Thank you for registering with us<br>
 <br>
-Note: <span style="color:#999; font-size:11px">Please do not reply to this email. It is an auto generated email. For any query or clarification, please email at,
-<span style="text-decoration:underline">${SUPPORT_EMAIL}</span><br>
-<br>
+Please dont reply it
+Note: <span style="color:#999; font-size:11px">Please do not reply to this email. 
 With Regards,<br>
 
-Team Verifyer
+Team Blockcube
+
 <div style="height:1px; background:#fff; margin:20px 0;"></div>
 
 

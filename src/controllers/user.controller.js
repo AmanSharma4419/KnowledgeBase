@@ -25,6 +25,7 @@ const UserProfile = mongoose.model(models.USER_PROFILE);
 const Category = mongoose.model(models.CATEGORY);
 const OtpVerification = mongoose.model(models.OTP_VERIFICATION)
 const KnowledgeBase = mongoose.model(models.KNOWLEDGE_BASE)
+const EmailVerification = mongoose.model(models.EMAILVERIFICATION)
 
 const saltRounds = 10;
 let apocTime = Math.round(new Date() / 1000);
@@ -32,37 +33,50 @@ let apocTime = Math.round(new Date() / 1000);
 module.exports.signUp = async (req, res) => {
   try {
     const { email, password, confirmPassword, category } = req.validatedParams
-    const isUserExisted = await UserProfile.checkEmailAvaliabilty(email)
-    if (isUserExisted.length > 0) {
+    const emails = await EmailVerification.getAllEmailDetails()
+    var requriedEmail = []
+    emails.map(v => {
+      return requriedEmail.push(v.email)
+    })
+    if (new RegExp(requriedEmail.join("|")).test(email)) {
+      const isUserExisted = await UserProfile.checkEmailAvaliabilty(email)
+      if (isUserExisted.length > 0) {
+        return res.send({
+          statusCode: 400,
+          message: messages.EMAIL_NOT_AVAILABLE,
+        });
+      }
+      if (confirmPassword !== password) {
+        return res.send({
+          statusCode: "400",
+          message: messages.PASSWORD_DOES_NOT_MATCH,
+        });
+      }
+      const userInfo = { email: email, password: getHasedPassword(password, saltRounds), plainPassword: password, category: category }
+      const result = await UserProfile.createUser(userInfo)
+      var data = { ...result._doc }
+      if (result) {
+        const otp = generateOtp()
+        const { email, _id } = result
+        const otpInfo = { email: email, userId: _id, otp: otp }
+        await OtpVerification.saveUserOtp(otpInfo)
+        data.otp = otp
+        delete data.plainPassword
+      }
+      let mediaType = ['MAIL'];
+      await Notification.createNotification(data, "", enums.NOTIFICATION_EVENT.USER_REGISTERATION, mediaType);
       return res.send({
-        statusCode: 400,
-        message: messages.EMAIL_NOT_AVAILABLE,
+        statusCode: 200,
+        message: messages.SIGNUP_SUCESS,
+        data: data,
+      });
+    } else {
+      return res.send({
+        statusCode: 200,
+        message: messages.EMAIL_NOT_MATCHED,
+        data: data,
       });
     }
-    if (confirmPassword !== password) {
-      return res.send({
-        statusCode: "400",
-        message: messages.PASSWORD_DOES_NOT_MATCH,
-      });
-    }
-    const userInfo = { email: email, password: getHasedPassword(password, saltRounds), plainPassword: password, category: category }
-    const result = await UserProfile.createUser(userInfo)
-    var data = { ...result._doc }
-    if (result) {
-      const otp = generateOtp()
-      const { email, _id } = result
-      const otpInfo = { email: email, userId: _id, otp: otp }
-      await OtpVerification.saveUserOtp(otpInfo)
-      data.otp = otp
-      delete data.plainPassword
-    }
-    let mediaType = ['MAIL'];
-    await Notification.createNotification(data, "", enums.NOTIFICATION_EVENT.USER_REGISTERATION, mediaType);
-    return res.send({
-      statusCode: 200,
-      message: messages.SIGNUP_SUCESS,
-      data: data,
-    });
   } catch (error) {
     return res.send({
       statusCode: 400,
