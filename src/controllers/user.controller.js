@@ -191,9 +191,7 @@ module.exports.updateKnowledgeBase = async (req, res) => {
     const id = req.params.id;
     const { category, topic, knowledgeBase, isPublished } = req.validatedParams
     const knowledgeBaseInfo = { userId: userId, category: category, topic: topic, knowledgeBase: knowledgeBase, isPublished: isPublished }
-    console.log(knowledgeBaseInfo, "in the kkkkk")
     const result = await KnowledgeBase.updateKnowledgeBase({ knowledgeBaseInfo, id })
-    console.log(result, "in the rr")
     return res.send({
       statusCode: 200,
       message: messages.KNOWLEGE_BASE_UPATED,
@@ -206,12 +204,14 @@ module.exports.updateKnowledgeBase = async (req, res) => {
     });
   }
 }
+
 module.exports.getAllDraftList = async (req, res) => {
   try {
     const userId = req.userData._id;
     const { pageNo, limit } = req.validatedParams
     const result = await KnowledgeBase.getAllDraftList({ userId, pageNo, limit })
-    const totalCount = await KnowledgeBase.totalCountForDraft()
+    const totalCount = await KnowledgeBase.totalCountForDraft(userId)
+    console.log(totalCount, "totalcount")
     return res.send({
       statusCode: 200,
       message: messages.DRAFT_LISTED_SUCESSFULLY,
