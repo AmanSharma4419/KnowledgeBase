@@ -23,6 +23,32 @@ class KnowledgeBaseDetails extends Model {
     static async createKnowledgeBase(KnowledgeBaseInfo) {
         return this.create(KnowledgeBaseInfo);
     }
+    static async updateKnowledgeBase({ knowledgeBaseInfo, id }) {
+        return this.findByIdAndUpdate(id, knowledgeBaseInfo, { new: true });
+    }
+    static async totalCountForDraft() {
+        return this.find({ isPublished: false }).count()
+    }
+    static async getAllDraftList({ userId, pageNo, limit }) {
+        return this.aggregate([{ $match: { userId: userId.toString(), isPublished: false } }, { $sort: ({ capdt: -1 }) },
+        { $skip: (pageNo - 1) * limit },
+        { $limit: limit }])
+    } 
+    static async getAllTopicsByCategory(category) {
+        return this.find({ $and: [{ category: category }, { isPublished: true }] });
+    }
+    static async getAllViewListByTopic({ topic, category, pageNo, limit }) {
+        return this.aggregate([{ $match: { topic: topic, category: category, isPublished: true } }, { $sort: ({ capdt: -1 }) },
+        { $skip: (pageNo - 1) * limit },
+        { $limit: limit }])
+    }
+    static async totalCountForView() {
+        return this.find({ isPublished: true }).count()
+    }
+
+    static async getKnowledgeById(id) {
+        return this.findById(id)
+    }
 }
 
 schema.loadClass(KnowledgeBaseDetails);
