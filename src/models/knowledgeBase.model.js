@@ -33,12 +33,12 @@ class KnowledgeBaseDetails extends Model {
         return this.aggregate([{ $match: { userId: userId.toString(), isPublished: false } }, { $sort: ({ capdt: -1 }) },
         { $skip: (pageNo - 1) * limit },
         { $limit: limit }])
-    }
+    } 
     static async getAllTopicsByCategory(category) {
         return this.find({ $and: [{ category: category }, { isPublished: true }] });
     }
-    static async getAllViewListByTopic({ topic, pageNo, limit }) {
-        return this.aggregate([{ $match: { topic: topic, isPublished: true } }, { $sort: ({ capdt: -1 }) },
+    static async getAllViewListByTopic({ topic, category, pageNo, limit }) {
+        return this.aggregate([{ $match: { topic: topic, category: category, isPublished: true } }, { $sort: ({ capdt: -1 }) },
         { $skip: (pageNo - 1) * limit },
         { $limit: limit }])
     }

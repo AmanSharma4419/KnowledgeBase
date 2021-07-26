@@ -4,6 +4,7 @@ module.exports = {
   PASSWORD_LENGTH_REQUIRED: "Password is required",
   INVALID_CATEGORY: "Invalid category",
   INVALID_TOPIC: "Invalid Topic",
+  INVALID_CATEGORY: "Invalid Category",
   INVALID_ISPUBLISHED: "Invalid Ispublished",
   INVALID_KNOWLEDGEBASE: "Invalid knowledgebase",
   SIGNUP_SUCESS: "Signup sucess",

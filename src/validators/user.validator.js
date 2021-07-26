@@ -45,6 +45,7 @@ module.exports.getAllTopicListByCategory = Joi.object({
 
 module.exports.getAllViewListByTopic = Joi.object({
   topic: Joi.string().required().trim().description("topic").error(new Error(messages.INVALID_TOPIC)),
+  category: Joi.string().required().trim().description("category").error(new Error(messages.INVALID_CATEGORY)),
   pageNo: Joi.number().required().error(new Error(messages.INVALID_PAGE)),
   limit: Joi.number().required().error(new Error(messages.INVALID_LIMIT)),
 });
