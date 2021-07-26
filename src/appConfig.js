@@ -16,5 +16,6 @@ module.exports = {
   EMAIL_SENDER_NAME: process.env.EMAIL_SENDER_NAME || '',
   SENDER_EMAIL: process.env.SENDER_EMAIL || '',
   SENDER_API_KEY: process.env.SENDER_API_KEY || '',
+  SERVERURL: process.env.SERVERURL || '',
 };
 

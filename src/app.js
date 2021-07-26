@@ -13,6 +13,26 @@ const fileUpload = require('express-fileupload')
 //const scheculer = require('../src/jobs/index');
 
 // Check whether all required config variables are loaded  or not
+
+const swaggerJsDocs = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
+
+const swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      title: 'Knowledge Base API',
+      description: "Knowledge base api description",
+      contact: {
+        name: "Harry"
+      },
+      servers: [SERVERURL+":"+PORT]
+    }
+  },
+  apis: ["app.js"]
+};
+
+
+
 checkEnvVariables();
 
 module.exports.app = express();
@@ -34,7 +54,8 @@ module.exports.startServer = async () => {
 
   this.app.use(morganDebug('app:app', 'tiny'));
 
-
+  const swaggerDocs = swaggerJsDocs(swaggerOptions);
+  this.app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
   // body-parser needed to parse form-data bodies
   this.app.use(bodyParser.json({ limit: '100mb' }));
