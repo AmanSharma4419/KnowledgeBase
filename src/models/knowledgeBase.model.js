@@ -27,7 +27,8 @@ class KnowledgeBaseDetails extends Model {
         return this.findByIdAndUpdate(id, knowledgeBaseInfo, { new: true });
     }
     static async totalCountForDraft(userId) {
-        return this.find({ isPublished: false, userId }).count()
+        console.log(userId, "indd")
+        return this.find({ $and: [{ isPublished: false }, { userId: userId }] }).count()
     }
     static async getAllDraftList({ userId, pageNo, limit }) {
         return this.aggregate([{ $match: { userId: userId.toString(), isPublished: false } }, { $sort: ({ capdt: -1 }) },
