@@ -27,4 +27,6 @@ module.exports = {
   NO_DATA_FOUND: "No data found",
   DRAFT_FETCHED_SUCESSFULLY: "Draft fetched sucessfully",
   EMAIL_NOT_MATCHED: "Your email is invalid ",
+  OTP_NOT_VERIFYED: "Otp is not verifyed",
+
 }

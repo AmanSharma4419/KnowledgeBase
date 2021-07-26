@@ -22,6 +22,9 @@ class OtpVerification extends Model {
     static async saveUserOtp(otpInfo) {
         return this.create(otpInfo);
     }
+    static async findUserStatusForOtpVerification(email) {
+        return this.findOne({ $and: [{ email: email }, { isVerifyedStatus: true }] });
+    }
     static async verifyOtp({ otp, userId }) {
         return this.findOne({ $and: [{ userId: userId }, { otp: otp }] });
     }

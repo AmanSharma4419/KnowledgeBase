@@ -128,34 +128,44 @@ module.exports.verifyOtp = async (req, res) => {
 module.exports.signIn = async (req, res) => {
   try {
     const { email, password } = req.validatedParams
-    const result = await UserProfile.checkUserAvalibilty(email)
-    if (!result) {
-      return res.send({ statusCode: 400, message: messages.EMAIL_NOT_FOUND });
-    }
-    var user = { ...result._doc }
-    const isValide = await comparedHased(password, result.password);
-    if (isValide) {
-      const token = await generateToken({
-        user: {
-          userId: result._id,
-        },
-      });
-      delete user.password
-      delete user.plainPassword
-      user.token = token
-      let mediaType = ['MAIL'];
-      await Notification.createNotification(result, "", enums.NOTIFICATION_EVENT.USER_LOGIN, mediaType);
-      return res.send({
-        statusCode: 200,
-        message: messages.LOGIN_SUCCESS,
-        data: user,
-      });
+    const userOtpVerificationStatus = await OtpVerification.findUserStatusForOtpVerification(email)
+    console.log(userOtpVerificationStatus, "jjj")
+    if (userOtpVerificationStatus && userOtpVerificationStatus.isVerifyedStatus) {
+      const result = await UserProfile.checkUserAvalibilty(email)
+      if (!result) {
+        return res.send({ statusCode: 400, message: messages.EMAIL_NOT_FOUND });
+      }
+      var user = { ...result._doc }
+      const isValide = await comparedHased(password, result.password);
+      if (isValide) {
+        const token = await generateToken({
+          user: {
+            userId: result._id,
+          },
+        });
+        delete user.password
+        delete user.plainPassword
+        user.token = token
+        let mediaType = ['MAIL'];
+        await Notification.createNotification(result, "", enums.NOTIFICATION_EVENT.USER_LOGIN, mediaType);
+        return res.send({
+          statusCode: 200,
+          message: messages.LOGIN_SUCCESS,
+          data: user,
+        });
+      } else {
+        return res.send({
+          statusCode: 400,
+          message: messages.PASSWORD_NOT_MATCHED
+        });
+      }
     } else {
       return res.send({
         statusCode: 400,
-        message: messages.PASSWORD_NOT_MATCHED
+        message: messages.OTP_NOT_VERIFYED
       });
     }
+
   } catch (error) {
     return res.send({
       statusCode: 400,
