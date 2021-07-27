@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const { Server } = require('http');
 const morganDebug = require('morgan-debug');
 
-const { PORT, PROJECT_NAME, ENVIRONMENT } = require('./appConfig');
+const { PORT, PROJECT_NAME, ENVIRONMENT, SERVERURL } = require('./appConfig');
 const connectToDb = require('./helpers/connectToDb.helper');
 const { checkEnvVariables } = require('./helpers/utils.helper');
 const fileUpload = require('express-fileupload')
@@ -28,7 +28,7 @@ const swaggerOptions = {
       servers: [SERVERURL+":"+PORT]
     }
   },
-  apis: ["app.js"]
+  apis: ["./swagger.yaml"]
 };
 
 
@@ -54,9 +54,10 @@ module.exports.startServer = async () => {
 
   this.app.use(morganDebug('app:app', 'tiny'));
 
+  // Swagger...
   const swaggerDocs = swaggerJsDocs(swaggerOptions);
   this.app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-
+  // Swagger End...
   // body-parser needed to parse form-data bodies
   this.app.use(bodyParser.json({ limit: '100mb' }));
   this.app.use(bodyParser.urlencoded({ extended: true, limit: '100mb', parameterLimit: 100000 }));

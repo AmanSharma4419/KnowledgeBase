@@ -2,7 +2,8 @@ const { Router } = require("express");
 const router = new Router();
 const { auth } = require("../middlewares/auth.middleware");
 const requestValidator = require("../middlewares/requestValidator.middleware");
-
+const swaggerJsDocs = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
 
 const userController = require("../controllers/user.controller")
 const userValidator = require("../validators/user.validator");
@@ -15,6 +16,16 @@ router.post("/verifyOtp", requestValidator(userValidator.verifyOtp), userControl
 router.post("/createKnowledgeBase", auth, requestValidator(userValidator.createKnowledgeBase), userController.createKnowledgeBase);
 router.post("/getAllDraftList", auth, requestValidator(userValidator.getAllDraftList), userController.getAllDraftList);
 router.post("/getAllTopicListByCategory", requestValidator(userValidator.getAllTopicListByCategory), userController.getAllTopicListByCategory);
+/**
+ *  @swagger
+ *  /getAllViewListByTopic:
+ *  post:
+ *      description:
+ *      response:
+ *          '200':
+ *          description: success
+ */
+
 router.post("/getAllViewListByTopic", requestValidator(userValidator.getAllViewListByTopic), userController.getAllViewListByTopic);
 router.get("/getKnowledgeBaseById/:id", userController.getKnowledgeBaseById);
 router.post("/updateKnowledgeBase/:id", auth, requestValidator(userValidator.updateKnowledgeBase), userController.updateKnowledgeBase);
