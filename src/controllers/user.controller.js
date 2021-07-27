@@ -195,7 +195,7 @@ module.exports.getKnowledgeBaseById = async (req, res) => {
   try {
     const id = req.params.id;
     const result = await KnowledgeBase.getKnowledgeById(id)
-    if (result.length) {
+    if (result) {
       return res.send({
         statusCode: 200,
         message: messages.DRAFT_FETCHED_SUCESSFULLY,
