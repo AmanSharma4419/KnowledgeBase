@@ -2,10 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ccd3c39f-aae6-460a-9125-3b1860d7ed7e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/swagger.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/verify.email.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/emailTemplate/userLogin.js" beforeDir="false" afterPath="$PROJECT_DIR$/emailTemplate/userLogin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/emailTemplate/userRegistration.js" beforeDir="false" afterPath="$PROJECT_DIR$/emailTemplate/userRegistration.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/messages.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/messages.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/models.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/models.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/user.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/user.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/email.helper.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/email.helper.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/encryption.helper.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/urlShortner.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/utils.helper.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/utils.helper.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middlewares/common.middleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/middlewares/common.middleware.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/knowledgeBase.model.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/knowledgeBase.model.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/otpVerification.model.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/otpVerification.model.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/shortUrl.model.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/user.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/user.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/socket.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/validators/userDetails.validator.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +88,7 @@
       <updated>1627020694319</updated>
       <workItem from="1627020696623" duration="6541000" />
       <workItem from="1627284139868" duration="7394000" />
-      <workItem from="1627299182904" duration="7118000" />
+      <workItem from="1627299182904" duration="9270000" />
     </task>
     <servers />
   </component>

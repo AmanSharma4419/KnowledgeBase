@@ -26,14 +26,14 @@ class KnowledgeBaseDetails extends Model {
     static async updateKnowledgeBase({ knowledgeBaseInfo, id }) {
         return this.findByIdAndUpdate(id, knowledgeBaseInfo, { new: true });
     }
-    static async totalCountForDraft() {
-        return this.find({ isPublished: false }).count()
+    static async totalCountForDraft(userId) {
+        return this.find({ $and: [{ isPublished: false }, { userId: userId }] }).count()
     }
     static async getAllDraftList({ userId, pageNo, limit }) {
         return this.aggregate([{ $match: { userId: userId.toString(), isPublished: false } }, { $sort: ({ capdt: -1 }) },
         { $skip: (pageNo - 1) * limit },
         { $limit: limit }])
-    } 
+    }
     static async getAllTopicsByCategory(category) {
         return this.find({ $and: [{ category: category }, { isPublished: true }] });
     }
@@ -42,10 +42,6 @@ class KnowledgeBaseDetails extends Model {
         { $skip: (pageNo - 1) * limit },
         { $limit: limit }])
     }
-    static async totalCountForView() {
-        return this.find({ isPublished: true }).count()
-    }
-
     static async getKnowledgeById(id) {
         return this.findById(id)
     }

@@ -20,9 +20,7 @@ exports.sendEmail = async function (to, subject, data, event, replyTo = '') {
   }
 
   let MailerOption = await ConfigModel.getMailerOption()
-  // console.log(MailerOption, "i the mmmy")
-  // isZohoSendMail
-  if (MailerOption) {
+  if (MailerOption.isZohoSendMail) {
     const transporter = nodeMailer.createTransport({
       host: SMTP_HOST,
       port: SMTP_PORT,
@@ -70,47 +68,4 @@ exports.sendEmail = async function (to, subject, data, event, replyTo = '') {
 };
 
 
-/*
-const transporter = nodeMailer.createTransport(
-  smtpTransport({
-    service: MAIL_SERVER,
-    auth: {
-      user: MAIL_USER,
-      pass: MAIL_PASSWORD
-    }
-  }),
-);
 
-exports.sendEmail = function (to, subject,data,fields,replyTo = '') {
-  var template;
-  if(fields =="EmailVerify"){
-    template = updateInfoTemplateSignup.template(data);
-    console.log(template);
-
-  }else if(fields == "documentShare"){
-    template = receivedDocumentTemplate.template(data);
-  }else if(fields =='AcceptRreject'){
-    template = acceptAndRejectTemplate.template(data);
-  }else if(fields == 'ForgetPassword'){
-    template = acceptAndRejectTemplate.template2(data);
-  }
-  const mail = {
-    from: `${SMTP_SENDER_NAME} <${MAIL_USER}>`,
-    to:to,
-    subject : subject,
-    html: template,
-  };
-
-  if (replyTo) {
-    mail.replyTo = replyTo;
-  }
-
-  transporter.sendMail(mail, (error, response) => {
-    if (error) {
-      debug(error);
-    } else {
-      console.log("Mail Send ::",response )
-      return response;
-    }
-  });
-};*/
