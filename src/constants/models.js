@@ -1,6 +1,5 @@
 module.exports = {
   USER_PROFILE: "userProfile",
-  NOTIFICATION: "notification",
   CONFIG: "config",
   CATEGORY: "category",
   EMAILVERIFICATION: "email_verification",

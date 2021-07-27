@@ -292,7 +292,9 @@ module.exports.getAllTopicListByCategory = async (req, res) => {
 module.exports.getAllViewListByTopic = async (req, res) => {
   try {
     const { pageNo, limit, topic, category } = req.validatedParams
+    console.log(pageNo, limit, topic, category)
     const result = await KnowledgeBase.getAllViewListByTopic({ topic, pageNo, limit, category })
+    console.log(result, "in the re")
     const totalCount = await KnowledgeBase.totalCountForView({ topic, category })
     if (result.length) {
       return res.send({

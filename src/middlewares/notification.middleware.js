@@ -3,7 +3,6 @@ const debug = require('debug')('app:notificationMiddleware');
 const { messages, models, enums, messageContent } = require('../constants/index');
 const common = require('../middlewares/common.middleware');
 const { SUPPORT_EMAIL_ME, SUPPORT_EMAIL_ORG, PROMOTE_SEND_SMS_SENDER_OTP, SMPP_PE_ID } = require('./../appConfig');
-const Notification = mongoose.model(models.NOTIFICATION);
 const emailHelper = require('../helpers/email.helper');
 
 module.exports.createNotification = async (userData, responseData, event, mediaType) => {

@@ -9,26 +9,21 @@ servers:
   - url: http://localhost:3001
     description: Optional server description, e.g. Internal staging server for testing
 paths:
-  /getAllViewListByTopic:
+  /api/v1/getAllViewListByTopic: 
     post:
       summary: Returns view knowledge by category and topic.
       parameters:
-        - name: category
-          in: path
-          required: true
-          type: string
-        - name: topic
-          in: path
-          required: true
-          type: string
-        - name: pageNo
-          in: path
-          required: true
-          type: integer
-        - name: limit
-          in: path
-          required: true
-          type: integer
+      - in: "body"
+        name: "body"
+        description: "order placed for purchasing the pet"
+        required: true
+        schema:
+          User:
+            properties:
+             id:
+               type: integer
+            name:
+              type: string
 
       responses:
         '200':    # status code

@@ -25,7 +25,7 @@ const swaggerOptions = {
       contact: {
         name: "Harry"
       },
-      servers: [SERVERURL+":"+PORT]
+      servers: [SERVERURL + ":" + PORT]
     }
   },
   apis: ["./swagger.yaml"]
