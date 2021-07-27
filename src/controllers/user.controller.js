@@ -67,14 +67,14 @@ module.exports.signUp = async (req, res) => {
       });
     } else {
       return res.send({
-        statusCode: 200,
+        statusCode: 400,
         message: messages.EMAIL_NOT_MATCHED,
         data: data,
       });
     }
   } catch (error) {
     return res.send({
-      statusCode: 400,
+      statusCode: 500,
       message: error.message,
     });
   }
@@ -83,14 +83,19 @@ module.exports.signUp = async (req, res) => {
 module.exports.listCategory = async (req, res) => {
   try {
     const result = await Category.getAllCategories()
-    return res.send({
-      statusCode: 200,
-      message: messages.CATEGORY_LISTED_SUCESSFULLY,
-      data: result,
-    });
+    if (result.length) {
+      return res.send({
+        statusCode: 200,
+        message: messages.CATEGORY_LISTED_SUCESSFULLY,
+        data: result,
+      });
+    }
+    else {
+      return res.json({ statusCode: 400, message: messages.NO_RECORD_FOUND })
+    }
   } catch (error) {
     return res.send({
-      statusCode: 400,
+      statusCode: 500,
       message: error.message,
     });
   }
@@ -108,13 +113,13 @@ module.exports.verifyOtp = async (req, res) => {
       });
     } else {
       return res.send({
-        statusCode: 200,
+        statusCode: 400,
         message: messages.OTP_VERIFICATION_FAIL,
       });
     }
   } catch (error) {
     return res.send({
-      statusCode: 400,
+      statusCode: 500,
       message: error.message,
     });
   }
@@ -159,10 +164,9 @@ module.exports.signIn = async (req, res) => {
         message: messages.OTP_NOT_VERIFYED
       });
     }
-
   } catch (error) {
     return res.send({
-      statusCode: 400,
+      statusCode: 500,
       message: error.message,
     });
   }
@@ -181,7 +185,7 @@ module.exports.createKnowledgeBase = async (req, res) => {
     });
   } catch (error) {
     return res.send({
-      statusCode: 400,
+      statusCode: 500,
       message: error.message,
     });
   }
@@ -191,18 +195,24 @@ module.exports.getKnowledgeBaseById = async (req, res) => {
   try {
     const id = req.params.id;
     const result = await KnowledgeBase.getKnowledgeById(id)
-    return res.send({
-      statusCode: 200,
-      message: messages.DRAFT_FETCHED_SUCESSFULLY,
-      data: result,
-    });
+    if (result.length) {
+      return res.send({
+        statusCode: 200,
+        message: messages.DRAFT_FETCHED_SUCESSFULLY,
+        data: result,
+      });
+    }
+    else {
+      return res.json({ statusCode: 400, message: messages.NO_RECORD_FOUND })
+    }
   } catch (error) {
     return res.send({
-      statusCode: 400,
+      statusCode: 500,
       message: error.message,
     });
   }
 }
+
 module.exports.updateKnowledgeBase = async (req, res) => {
   try {
     const userId = req.userData._id;
@@ -217,7 +227,7 @@ module.exports.updateKnowledgeBase = async (req, res) => {
     });
   } catch (error) {
     return res.send({
-      statusCode: 400,
+      statusCode: 500,
       message: error.message,
     });
   }
@@ -229,14 +239,19 @@ module.exports.getAllDraftList = async (req, res) => {
     const { pageNo, limit } = req.validatedParams
     const result = await KnowledgeBase.getAllDraftList({ userId, pageNo, limit })
     const totalCount = await KnowledgeBase.totalCountForDraft(userId)
-    return res.send({
-      statusCode: 200,
-      message: messages.DRAFT_LISTED_SUCESSFULLY,
-      data: { result, totalCount },
-    });
+    if (result.length) {
+      return res.send({
+        statusCode: 200,
+        message: messages.DRAFT_LISTED_SUCESSFULLY,
+        data: { result, totalCount },
+      });
+    }
+    else {
+      return res.json({ statusCode: 400, message: messages.NO_RECORD_FOUND })
+    }
   } catch (error) {
     return res.send({
-      statusCode: 400,
+      statusCode: 500,
       message: error.message,
     });
   }
@@ -259,14 +274,14 @@ module.exports.getAllTopicListByCategory = async (req, res) => {
       });
     } else {
       return res.send({
-        statusCode: 200,
-        message: messages.NO_DATA_FOUND,
+        statusCode: 400,
+        message: messages.NO_RECORD_FOUND,
         data: result,
       });
     }
   } catch (error) {
     return res.send({
-      statusCode: 400,
+      statusCode: 500,
       message: error.message,
     });
   }
@@ -276,14 +291,20 @@ module.exports.getAllViewListByTopic = async (req, res) => {
   try {
     const { pageNo, limit, topic, category } = req.validatedParams
     const result = await KnowledgeBase.getAllViewListByTopic({ topic, pageNo, limit, category })
-    return res.send({
-      statusCode: 200,
-      message: messages.VIEW_LISTED_SUCESSFULLY,
-      data: result,
-    });
+    const totalCount = await KnowledgeBase.totalCountForView({ topic, category })
+    if (result.length) {
+      return res.send({
+        statusCode: 200,
+        message: messages.VIEW_LISTED_SUCESSFULLY,
+        data: { result, totalCount },
+      });
+    }
+    else {
+      return res.json({ statusCode: 400, message: messages.NO_RECORD_FOUND })
+    }
   } catch (error) {
     return res.send({
-      statusCode: 400,
+      statusCode: 500,
       message: error.message,
     });
   }

@@ -37,6 +37,9 @@ class KnowledgeBaseDetails extends Model {
     static async getAllTopicsByCategory(category) {
         return this.find({ $and: [{ category: category }, { isPublished: true }] });
     }
+    static async totalCountForView({ topic, category }) {
+        return this.find({ $and: [{ topic: topic }, { category: category }, { isPublished: true }] }).count()
+    }
     static async getAllViewListByTopic({ topic, category, pageNo, limit }) {
         return this.aggregate([{ $match: { topic: topic, category: category, isPublished: true } }, { $sort: ({ capdt: -1 }) },
         { $skip: (pageNo - 1) * limit },
