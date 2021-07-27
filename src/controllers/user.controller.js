@@ -129,7 +129,6 @@ module.exports.signIn = async (req, res) => {
   try {
     const { email, password } = req.validatedParams
     const userOtpVerificationStatus = await OtpVerification.findUserStatusForOtpVerification(email)
-    console.log(userOtpVerificationStatus, "jjj")
     if (userOtpVerificationStatus && userOtpVerificationStatus.isVerifyedStatus) {
       const result = await UserProfile.checkUserAvalibilty(email)
       if (!result) {
