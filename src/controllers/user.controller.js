@@ -1,11 +1,6 @@
-const path = require("path");
-const Joi = require("@hapi/joi");
 const mongoose = require("mongoose");
-const debug = require("debug")("app:userController");
 const { messages, models, enums } = require("../constants/index");
-const common = require("./../middlewares/common.middleware");
 const Notification = require('../middlewares/notification.middleware');
-const NotificationData = mongoose.model(models.NOTIFICATION);
 const { generateOtp } = require("../middlewares/common.middleware");
 const {
   generateToken,
@@ -14,8 +9,7 @@ const {
 
 } = require("./../helpers/utils.helper");
 
-const emailHelper = require("../helpers/email.helper");
-
+// Models of the schemas
 const UserProfile = mongoose.model(models.USER_PROFILE);
 const Category = mongoose.model(models.CATEGORY);
 const OtpVerification = mongoose.model(models.OTP_VERIFICATION)
@@ -23,8 +17,8 @@ const KnowledgeBase = mongoose.model(models.KNOWLEDGE_BASE)
 const EmailVerification = mongoose.model(models.EMAILVERIFICATION)
 
 const saltRounds = 10;
-let apocTime = Math.round(new Date() / 1000);
 
+// Controller for registering the user in knowledgeBase takes email, password, confirmPassword, category as req params and returns the registered user details also send the email for user registeration
 module.exports.signUp = async (req, res) => {
   try {
     const { email, password, confirmPassword, category } = req.validatedParams
@@ -80,6 +74,7 @@ module.exports.signUp = async (req, res) => {
   }
 };
 
+// Controller for listing all the avaliabe category for knowledgebase
 module.exports.listCategory = async (req, res) => {
   try {
     const result = await Category.getAllCategories()
@@ -101,6 +96,7 @@ module.exports.listCategory = async (req, res) => {
   }
 }
 
+// Controller for verification of user otp recived while signup takes otp, userId in the req params and sends the opt verification status as response
 module.exports.verifyOtp = async (req, res) => {
   try {
     const { otp, userId } = req.validatedParams
@@ -125,6 +121,7 @@ module.exports.verifyOtp = async (req, res) => {
   }
 }
 
+// Controller for signing in a particular user in the knowledgebase with email ,password it returns a JWT token as a response with user info also send the email for user login
 module.exports.signIn = async (req, res) => {
   try {
     const { email, password } = req.validatedParams
@@ -172,6 +169,7 @@ module.exports.signIn = async (req, res) => {
   }
 }
 
+// Controller for creating the entery of a knowledge base and save it as published or draft item in db.it takes  category, topic, knowledgeBase, isPublished in params and returns created Knowledge base as response.
 module.exports.createKnowledgeBase = async (req, res) => {
   try {
     const userId = req.userData._id;
@@ -191,6 +189,7 @@ module.exports.createKnowledgeBase = async (req, res) => {
   }
 }
 
+// Controller for listing the single knowledgebase entery according to the id it takes knowledgebaseId as params
 module.exports.getKnowledgeBaseById = async (req, res) => {
   try {
     const id = req.params.id;
@@ -212,7 +211,7 @@ module.exports.getKnowledgeBaseById = async (req, res) => {
     });
   }
 }
-
+// Controller for updating the single knowledge base entery according to the id
 module.exports.updateKnowledgeBase = async (req, res) => {
   try {
     const userId = req.userData._id;
@@ -233,6 +232,7 @@ module.exports.updateKnowledgeBase = async (req, res) => {
   }
 }
 
+// Controller for listing all the items with pagination and totalcount in knowledgebase saved as draft.
 module.exports.getAllDraftList = async (req, res) => {
   try {
     const userId = req.userData._id;
@@ -257,6 +257,7 @@ module.exports.getAllDraftList = async (req, res) => {
   }
 }
 
+// Controller for listing all the topics in the knowledgebase according to the category takes category as req parameter.
 module.exports.getAllTopicListByCategory = async (req, res) => {
   try {
     const { category } = req.validatedParams
@@ -287,6 +288,7 @@ module.exports.getAllTopicListByCategory = async (req, res) => {
   }
 }
 
+// Controller for listing all the items with pagination and totalCount in knowledge base saved as published according to the topic and category  with its total count
 module.exports.getAllViewListByTopic = async (req, res) => {
   try {
     const { pageNo, limit, topic, category } = req.validatedParams
