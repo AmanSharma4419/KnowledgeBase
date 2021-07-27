@@ -8,15 +8,10 @@ const Notification = require('../middlewares/notification.middleware');
 const NotificationData = mongoose.model(models.NOTIFICATION);
 const { generateOtp } = require("../middlewares/common.middleware");
 const {
-  generateRandomString,
   generateToken,
-  generateUniqueId,
-  secondsSinceEpoch,
   getHasedPassword,
   comparedHased,
-  generateReferralEight,
-  checkFileExt,
-  createDirectory
+
 } = require("./../helpers/utils.helper");
 
 const emailHelper = require("../helpers/email.helper");
@@ -48,7 +43,7 @@ module.exports.signUp = async (req, res) => {
       }
       if (confirmPassword !== password) {
         return res.send({
-          statusCode: "400",
+          statusCode: 400,
           message: messages.PASSWORD_DOES_NOT_MATCH,
         });
       }
@@ -234,7 +229,6 @@ module.exports.getAllDraftList = async (req, res) => {
     const { pageNo, limit } = req.validatedParams
     const result = await KnowledgeBase.getAllDraftList({ userId, pageNo, limit })
     const totalCount = await KnowledgeBase.totalCountForDraft(userId)
-    console.log(totalCount, "totalcount")
     return res.send({
       statusCode: 200,
       message: messages.DRAFT_LISTED_SUCESSFULLY,
@@ -282,8 +276,6 @@ module.exports.getAllViewListByTopic = async (req, res) => {
   try {
     const { pageNo, limit, topic, category } = req.validatedParams
     const result = await KnowledgeBase.getAllViewListByTopic({ topic, pageNo, limit, category })
-    const totalCount = await KnowledgeBase.totalCountForView()
-    console.log(totalCount)
     return res.send({
       statusCode: 200,
       message: messages.VIEW_LISTED_SUCESSFULLY,

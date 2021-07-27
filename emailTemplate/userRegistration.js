@@ -1,8 +1,8 @@
 const { LOGO, SUPPORT_EMAIL } = require('../src/appConfig');
 module.exports = {
-  template: (sendMailData) => {
-    otp = sendMailData.otp
-    return `<!doctype html>
+    template: (sendMailData) => {
+        otp = sendMailData.otp
+        return `<!doctype html>
     <html>
      <head>
         <meta charset="utf-8">
@@ -38,6 +38,6 @@ module.exports = {
     
     </html>`
 
-  }
+    }
 }
 

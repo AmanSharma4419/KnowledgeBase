@@ -26,15 +26,8 @@ module.exports.startServer = async () => {
 
   require('./models/index');
   // Load models
-  //  require('./models');
-
-  // Load socket
-
-  // require('./socket').init(this.server);
 
   this.app.use(morganDebug('app:app', 'tiny'));
-
-
 
   // body-parser needed to parse form-data bodies
   this.app.use(bodyParser.json({ limit: '100mb' }));
@@ -43,10 +36,6 @@ module.exports.startServer = async () => {
   // Disable x-powered-by header
   this.app.disable('x-powered-by');
   this.app.set('env', ENVIRONMENT);
-
-  // Handle `OPTIONS` request.
-  //this.app.use('*', cors());
-  //this.app.all('*', handleOptions);
 
   // delete all headers related to cache
   this.app.use(deleteCacheHeaders);
@@ -66,12 +55,9 @@ module.exports.startServer = async () => {
     })
   )
 
-  // multer for file upload
-  //this.app.use(multer().any());
-
   // load routes
   this.app.use(express.json())
-  const router = require('./routes/user.routes');
+  const router = require('./routes/index');
 
   this.app.use('/api/v1', router);
 
@@ -93,16 +79,6 @@ async function listen({ server }) {
   });
 }
 
-async function handleOptions(req, res, next) {
-  // res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,PATCH');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Accept-Language');
-  if (req.method == 'OPTIONS') {
-    res.status(200).end();
-  } else {
-    next();
-  }
-}
 
 async function deleteCacheHeaders(req, res, next) {
   req.headers['if-none-match'] = '';

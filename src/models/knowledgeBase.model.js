@@ -42,9 +42,6 @@ class KnowledgeBaseDetails extends Model {
         { $skip: (pageNo - 1) * limit },
         { $limit: limit }])
     }
-    static async totalCountForView() {
-        return this.find({ isPublished: true }).count()
-    }
     static async getKnowledgeById(id) {
         return this.findById(id)
     }
