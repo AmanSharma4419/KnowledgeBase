@@ -320,6 +320,8 @@ securityDefinitions:
             lastName:
               type: string
             employeeId:
+              type: string
+            mobileNumber:
               type: string            
       responses:
         200:

@@ -338,8 +338,8 @@ module.exports.getUserProfile = async (req, res) => {
 module.exports.updateUserProfile = async (req, res) => {
   try {
     const userId = req.userData._id;
-    const { employeeId, firstName, lastName } = req.validatedParams
-    const userProfileInfo = { employeeId: employeeId, firstName: firstName, lastName: lastName }
+    const { employeeId, firstName, lastName, mobileNumber } = req.validatedParams
+    const userProfileInfo = { employeeId: employeeId, firstName: firstName, lastName: lastName, mobileNumber: mobileNumber }
     const result = await UserProfile.updateUserProfile({ userProfileInfo, userId })
     if (result) {
       var userProfile = { ...result._doc }

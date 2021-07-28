@@ -52,7 +52,8 @@ module.exports.getAllViewListByTopic = Joi.object({
 
 module.exports.updateUserProfile = Joi.object({
   email: Joi.string().email().optional().trim(),
-  firstName: Joi.string().optional().trim(),
-  lastName: Joi.string().optional().trim(),
-  employeeId: Joi.string().optional().trim()
+  firstName: Joi.string().optional().trim().error(new Error(messages.INVALID_FIRST_NAME)),
+  lastName: Joi.string().optional().trim().error(new Error(messages.INVALID_LAST_NAME)),
+  employeeId: Joi.string().optional().trim().error(new Error(messages.INVALID_EMPLOYEEID)),
+  mobileNumber: Joi.string().regex(/^\d+$/).min(6).max(13).optional().error(new Error(messages.INVALID_MOBILE_NUMBER)),
 });

@@ -11,6 +11,7 @@ const schema = new Schema({
   category: { type: String, default: '' },
   firstName: { type: String, default: '' },
   lastName: { type: String, default: '' },
+  mobileNumber: { type: String, default: '' },
   employeeId: { type: String, default: '' },
   udt: { type: Date, default: new Date() },
   cdt: { type: Date, default: new Date() },

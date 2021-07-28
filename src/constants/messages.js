@@ -31,6 +31,8 @@ module.exports = {
   USER_FOUND: "User found successfully",
   USER_PROFILE_UPDATED: "User profile updated",
   USER_PROFILE_UPDATE_FAILS: "User profile updataion fails",
-
-
+  INVALID_MOBILE_NUMBER: "Invalid mobile number",
+  INVALID_FIRST_NAME:"Invalid firstName",
+  INVALID_LAST_NAME:"Invalid lastName",
+  INVALID_EMPLOYEEID:"Invalid employeeId"
 }
