@@ -25,5 +25,11 @@ router.post("/getAllViewListByTopic", auth, requestValidator(userValidator.getAl
 router.get("/getKnowledgeBaseById/:id", auth, userController.getKnowledgeBaseById);
 // For updating the existing knowledgebase according to _id
 router.post("/updateKnowledgeBase/:id", auth, requestValidator(userValidator.updateKnowledgeBase), userController.updateKnowledgeBase);
+// For getting the user profile 
+router.get("/getUserProfile", auth, userController.getUserProfile)
+// For viewing the user profile according to the userid
+router.get("/viewUserProfile/:userId", auth, userController.viewUserProfile)
+// For updating the user profile in knowledgeBase
+router.post("/updateUserProfile", auth, requestValidator(userValidator.updateUserProfile), userController.updateUserProfile);
 
 module.exports = router;

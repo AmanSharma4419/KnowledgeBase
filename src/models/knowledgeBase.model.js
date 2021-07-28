@@ -9,6 +9,7 @@ const {
 
 const schema = new Schema({
     userId: { type: String, default: "", index: true },
+    userEmail: { type: String, default: "" },
     category: { type: String, default: '' },
     topic: { type: String, default: '' },
     knowledgeBase: { type: String, default: '' },

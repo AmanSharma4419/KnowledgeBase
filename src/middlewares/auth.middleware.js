@@ -24,7 +24,7 @@ module.exports.auth = async (req, res, next) => {
       // console.log(decoded)
       userId = decoded.user.userId;
     } catch (e) {
-      return res.send({ statusCode: 401, message: messages.UNAUTHORIZED });
+      return res.send({ statusCode: 401, message: 'Invalid Token' });
     }
     // console.log("body :: ",req.body)
     // if (userId != req.body.userId) {

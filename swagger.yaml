@@ -17,6 +17,8 @@ tags:
     description: "View All Knowledge Base Topic By Category"
   - name: "Dashboard"
     description: " All Knowledge Base Dashboard Endpoints"
+  - name: "UserProfile"
+    description: " All Endpoints For Update,Get User Profile"
 securityDefinitions:
   Bearer:
     type: apiKey
@@ -261,4 +263,64 @@ securityDefinitions:
               type: integer
       responses:
         200:
-          description: OK            
+          description: OK       
+
+/api/v1/viewUserProfile/{id}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - "UserProfile"
+      summary: Returns the userInfo according to the id in the viewList
+      produces:
+        - application/json
+      consumes:
+        - application/json     
+      parameters:
+        - name: id
+          in: path   
+      responses:
+        200:
+          description: OK 
+    
+/api/v1/getUserProfile:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - "UserProfile"
+      summary: Returns the userInfo according to the id by jwt token
+      produces:
+        - application/json
+      consumes:
+        - application/json  
+      responses:
+        200:
+          description: OK
+
+/api/v1/updateUserProfile:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - "UserProfile"
+      summary: Returns the updated userInfo according to the id by jwt token
+      produces:
+        - application/json
+      consumes:
+        - application/json  
+      parameters:
+      - in: body
+        name: profileInfo      
+        schema : 
+           type: object
+           properties: 
+            firstName:
+              type: string 
+            lastName:
+              type: string
+            employeeId:
+              type: string            
+      responses:
+        200:
+          description: OK

@@ -1,17 +1,17 @@
 const { Schema, model, Model } = require('mongoose');
-const { ELA_UNABLE } = require("./../appConfig");
-
 const { models } = require('./../constants/index');
 const {
   secondsSinceEpoch
 } = require("../helpers/utils.helper");
-
 
 const schema = new Schema({
   email: { type: String, default: '' },
   password: { type: String, default: '' },
   plainPassword: { type: String, default: '' },
   category: { type: String, default: '' },
+  firstName: { type: String, default: '' },
+  lastName: { type: String, default: '' },
+  employeeId: { type: String, default: '' },
   udt: { type: Date, default: new Date() },
   cdt: { type: Date, default: new Date() },
   uapdt: { type: Number, default: secondsSinceEpoch },
@@ -24,8 +24,11 @@ class UserDetailsRec extends Model {
   static async checkEmailAvaliabilty(email) {
     return this.find({ email: email });
   }
+  static async updateUserProfile({ userProfileInfo, userId }) {
+    return this.findByIdAndUpdate(userId, userProfileInfo, { new: true });
+  }
   static async getUserDataByUserId(userId) {
-    return this.findById(userId);
+    return this.findById(userId, { plainPassword: 0, password: 0 });
   }
   static async createUser(userInfo) {
     return this.create(userInfo);

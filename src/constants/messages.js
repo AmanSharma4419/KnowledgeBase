@@ -19,13 +19,18 @@ module.exports = {
   PASSWORD_NOT_MATCHED: "User password not matched",
   LOGIN_SUCCESS: "Login success",
   KNOWLEGE_BASE_CREATED: "Knowledge base created",
-  KNOWLEGE_BASE_UPATED: "Knowledge base updated",
+  KNOWLEGE_BASE_UPDATED: "Knowledge base updated",
   INVALID_PAGE: "Invalid Page",
   INVALID_LIMIT: "Invalid Limit",
-  TOPIC_LISTED_SUCESSFULLY: "Topic Listed Sucessfully",
-  VIEW_LISTED_SUCESSFULLY: "All Views Listed Sucessfully",
-  DRAFT_FETCHED_SUCESSFULLY: "Draft fetched sucessfully",
+  TOPIC_LISTED_SUCESSFULLY: "Topic Listed successfully",
+  VIEW_LISTED_SUCESSFULLY: "All Views Listed successfully",
+  DRAFT_FETCHED_SUCESSFULLY: "Draft fetched successfully",
   EMAIL_NOT_MATCHED: "Your email is invalid ",
   OTP_NOT_VERIFYED: "Otp is not verifyed",
-  NO_RECORD_FOUND: "No record found"
+  NO_RECORD_FOUND: "No record found",
+  USER_FOUND: "User found successfully",
+  USER_PROFILE_UPDATED: "User profile updated",
+  USER_PROFILE_UPDATE_FAILS: "User profile updataion fails",
+
+
 }

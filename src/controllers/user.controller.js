@@ -172,9 +172,9 @@ module.exports.signIn = async (req, res) => {
 // Controller for creating the entery of a knowledge base and save it as published or draft item in db.it takes  category, topic, knowledgeBase, isPublished in params and returns created Knowledge base as response.
 module.exports.createKnowledgeBase = async (req, res) => {
   try {
-    const userId = req.userData._id;
+    const { _id, email } = req.userData;
     const { category, topic, knowledgeBase, isPublished } = req.validatedParams
-    const knowledgeBaseInfo = { userId: userId, category: category, topic: topic, knowledgeBase: knowledgeBase, isPublished: isPublished }
+    const knowledgeBaseInfo = { userId: _id, userEmail: email, category: category, topic: topic, knowledgeBase: knowledgeBase, isPublished: isPublished }
     const result = await KnowledgeBase.createKnowledgeBase(knowledgeBaseInfo)
     return res.send({
       statusCode: 200,
@@ -214,14 +214,14 @@ module.exports.getKnowledgeBaseById = async (req, res) => {
 // Controller for updating the single knowledge base entery according to the id
 module.exports.updateKnowledgeBase = async (req, res) => {
   try {
-    const userId = req.userData._id;
+    const { _id, email } = req.userData;
     const id = req.params.id;
     const { category, topic, knowledgeBase, isPublished } = req.validatedParams
-    const knowledgeBaseInfo = { userId: userId, category: category, topic: topic, knowledgeBase: knowledgeBase, isPublished: isPublished }
+    const knowledgeBaseInfo = { userId: _id, userEmail: email, category: category, topic: topic, knowledgeBase: knowledgeBase, isPublished: isPublished }
     const result = await KnowledgeBase.updateKnowledgeBase({ knowledgeBaseInfo, id })
     return res.send({
       statusCode: 200,
-      message: messages.KNOWLEGE_BASE_UPATED,
+      message: messages.KNOWLEGE_BASE_UPDATED,
       data: result,
     });
   } catch (error) {
@@ -292,15 +292,85 @@ module.exports.getAllTopicListByCategory = async (req, res) => {
 module.exports.getAllViewListByTopic = async (req, res) => {
   try {
     const { pageNo, limit, topic, category } = req.validatedParams
-    console.log(pageNo, limit, topic, category)
     const result = await KnowledgeBase.getAllViewListByTopic({ topic, pageNo, limit, category })
-    console.log(result, "in the re")
     const totalCount = await KnowledgeBase.totalCountForView({ topic, category })
     if (result.length) {
       return res.send({
         statusCode: 200,
         message: messages.VIEW_LISTED_SUCESSFULLY,
         data: { result, totalCount },
+      });
+    }
+    else {
+      return res.json({ statusCode: 400, message: messages.NO_RECORD_FOUND })
+    }
+  } catch (error) {
+    return res.send({
+      statusCode: 500,
+      message: error.message,
+    });
+  }
+}
+
+// Controller for getting the user profile through userId by jwt token
+module.exports.getUserProfile = async (req, res) => {
+  try {
+    const userId = req.userData._id;
+    const userInfo = await UserProfile.getUserDataByUserId(userId)
+    if (userInfo) {
+      return res.send({
+        statusCode: 200,
+        message: messages.USER_FOUND,
+        data: userInfo,
+      });
+    }
+    else {
+      return res.json({ statusCode: 400, message: messages.NO_RECORD_FOUND })
+    }
+  } catch (error) {
+    return res.send({
+      statusCode: 500,
+      message: error.message,
+    });
+  }
+}
+// Controller for find by id userProfile and update it 
+module.exports.updateUserProfile = async (req, res) => {
+  try {
+    const userId = req.userData._id;
+    const { employeeId, firstName, lastName } = req.validatedParams
+    const userProfileInfo = { employeeId: employeeId, firstName: firstName, lastName: lastName }
+    const result = await UserProfile.updateUserProfile({ userProfileInfo, userId })
+    if (result) {
+      var userProfile = { ...result._doc }
+      delete userProfile.password
+      delete userProfile.plainPassword
+      return res.send({
+        statusCode: 200,
+        message: messages.USER_PROFILE_UPDATED,
+        data: userProfile,
+      });
+    }
+    else {
+      return res.json({ statusCode: 400, message: messages.USER_PROFILE_UPDATE_FAILS })
+    }
+  } catch (error) {
+    return res.send({
+      statusCode: 500,
+      message: error.message,
+    });
+  }
+}
+// Controller for viewing the user profile by user id getting from params to find out the auther of  the knowldgebase enteries
+module.exports.viewUserProfile = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const userInfo = await UserProfile.getUserDataByUserId(userId)
+    if (userInfo) {
+      return res.send({
+        statusCode: 200,
+        message: messages.USER_FOUND,
+        data: userInfo,
       });
     }
     else {
