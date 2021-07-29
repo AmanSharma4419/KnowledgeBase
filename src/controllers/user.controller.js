@@ -8,7 +8,7 @@ const {
   comparedHased,
   generateRandomString
 } = require("./../helpers/utils.helper");
-
+const { APP_URL_FRONT } = require("./../appConfig")
 // Models of the schemas
 const UserProfile = mongoose.model(models.USER_PROFILE);
 const Category = mongoose.model(models.CATEGORY);
