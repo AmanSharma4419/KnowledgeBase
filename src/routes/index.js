@@ -37,5 +37,7 @@ router.post("/changePassword", auth, requestValidator(userValidator.changePasswo
 router.post("/forgotPassword", requestValidator(userValidator.forgotPassword), userController.forgotPassword);
 // For verifying the forgot password and reset user password
 router.post("/forgetPasswordVerify", requestValidator(userValidator.forgetPasswordVerify), userController.forgetPasswordVerify);
+// For listing the user profile
+router.get("/listUserProfile", auth, userController.listUserProfile);
 
 module.exports = router;

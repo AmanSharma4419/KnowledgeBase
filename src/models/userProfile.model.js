@@ -13,6 +13,7 @@ const schema = new Schema({
   lastName: { type: String, default: '' },
   mobileNumber: { type: String, default: '' },
   employeeId: { type: String, default: '' },
+  isOtpVerifyedStatus: { type: String, default: false },
   udt: { type: Date, default: new Date() },
   cdt: { type: Date, default: new Date() },
   uapdt: { type: Number, default: secondsSinceEpoch },
@@ -42,6 +43,12 @@ class UserDetailsRec extends Model {
   }
   static async updatePassword({ userId, newPassword }) {
     return this.findByIdAndUpdate(userId, { password: newPassword }, { new: true });
+  }
+  static async updatePassword({ userId, newPassword }) {
+    return this.findByIdAndUpdate(userId, { password: newPassword }, { new: true });
+  }
+  static async getAllVerifyedRegisteredUsers() {
+    return this.find({ isOtpVerifyedStatus: true }, { password: 0, plainPassword: 0 });
   }
 }
 

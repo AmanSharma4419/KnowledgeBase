@@ -25,6 +25,7 @@ module.exports = {
   TOPIC_LISTED_SUCESSFULLY: "Topic Listed successfully",
   VIEW_LISTED_SUCESSFULLY: "All Views Listed successfully",
   DRAFT_FETCHED_SUCESSFULLY: "Draft fetched successfully",
+  USER_PROFILE_FETCHED_SUCESSFULLY: "User profile fetched successfully",
   EMAIL_NOT_MATCHED: "Your email is invalid ",
   OTP_NOT_VERIFYED: "Otp is not verifyed",
   NO_RECORD_FOUND: "No record found",

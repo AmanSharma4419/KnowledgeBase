@@ -102,7 +102,9 @@ module.exports.verifyOtp = async (req, res) => {
     const { otp, userId } = req.validatedParams
     const result = await OtpVerification.verifyOtp({ otp: otp, userId: userId })
     if (result) {
+      const userProfileInfo = { isOtpVerifyedStatus: true }
       await OtpVerification.updateOtpStatus(result.userId)
+      await UserProfile.updateUserProfile({ userProfileInfo, userId })
       return res.send({
         statusCode: 200,
         message: messages.OTP_VERIFICATION_DONE,
@@ -491,6 +493,30 @@ module.exports.forgetPasswordVerify = async (req, res) => {
       return res.send({
         statusCode: 400,
         message: messages.INVALID_TOKEN,
+      });
+    }
+  } catch (error) {
+    return res.send({
+      statusCode: 500,
+      message: error.message,
+    });
+  }
+};
+
+// Controller to list the registered user profiles 
+module.exports.listUserProfile = async (req, res) => {
+  try {
+    const result = await UserProfile.getAllVerifyedRegisteredUsers()
+    if (result.length > 0) {
+      return res.send({
+        statusCode: 200,
+        message: messages.USER_PROFILE_FETCHED_SUCESSFULLY,
+        data: result
+      });
+    } else {
+      return res.send({
+        statusCode: 400,
+        message: messages.NO_RECORD_FOUND,
       });
     }
   } catch (error) {

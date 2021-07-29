@@ -397,3 +397,19 @@ securityDefinitions:
       responses:
         200:
           description: OK 
+
+/api/v1/listUserProfile:
+    get:       
+      tags:
+       - "Dashboard"
+      security:
+      - Bearer: [] 
+      - "Login"
+      summary: This results all the registered users
+      produces:
+        - application/json
+      consumes:
+        - application/json                 
+      responses:
+        200:
+          description: OK 
