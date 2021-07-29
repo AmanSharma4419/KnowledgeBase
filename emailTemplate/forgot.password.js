@@ -1,6 +1,7 @@
 const { LOGO, SUPPORT_EMAIL } = require('../src/appConfig');
 module.exports = {
     template: (sendMailData) => {
+        resetpasswordlink = sendMailData.link
         return `<!doctype html>
         <html>
          <head>
@@ -16,7 +17,7 @@ module.exports = {
                     <div
                         style="color:#fff; font-size:13px; font-family:Arial, Helvetica, sans-serif; line-height:20px; text-align:left">
                         <br>
-                        Hi User <br> Your login is successfully done  <br>
+                        Hi User <br> Your reset password link is <a href =${resetpasswordlink}> Click Here </a>  <br>
                        <br>
                         Note: <span style="color:#999; font-size:11px">Please do not reply to this email.<br>
         

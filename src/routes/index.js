@@ -31,5 +31,11 @@ router.get("/getUserProfile", auth, userController.getUserProfile)
 router.get("/viewUserProfile/:userId", auth, userController.viewUserProfile)
 // For updating the user profile in knowledgeBase
 router.post("/updateUserProfile", auth, requestValidator(userValidator.updateUserProfile), userController.updateUserProfile);
+// For changing the user password after login
+router.post("/changePassword", auth, requestValidator(userValidator.changePassword), userController.changePassword);
+// For forgot password link 
+router.post("/forgotPassword", requestValidator(userValidator.forgotPassword), userController.forgotPassword);
+// For verifying the forgot password and reset user password
+router.post("/forgetPasswordVerify", requestValidator(userValidator.forgetPasswordVerify), userController.forgetPasswordVerify);
 
 module.exports = router;

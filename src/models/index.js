@@ -4,3 +4,4 @@ require('./category.model');
 require('./otpVerification.model')
 require('./knowledgeBase.model')
 require('./verify.email')
+require('./forgot.password.token')

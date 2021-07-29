@@ -25,6 +25,15 @@ module.exports.createNotification = async (userData, responseData, event, mediaT
         }
       }
       break;
+    case enums.NOTIFICATION_EVENT.FORGOT_PASSWORD:
+      debug(`${enums.NOTIFICATION_EVENT.FORGOT_PASSWORD}`);
+      if (mediaType.includes(enums.MEDIA_TYPE.MAIL)) {
+        if (userData.email != '') {
+          await emailHelper.sendEmail(userData.email, "Forgot Password Notification", userData, event, '');
+        }
+      }
+      break;
+
   }
 }
 

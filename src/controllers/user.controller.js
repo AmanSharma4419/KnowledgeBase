@@ -6,7 +6,7 @@ const {
   generateToken,
   getHasedPassword,
   comparedHased,
-
+  generateRandomString
 } = require("./../helpers/utils.helper");
 
 // Models of the schemas
@@ -15,7 +15,7 @@ const Category = mongoose.model(models.CATEGORY);
 const OtpVerification = mongoose.model(models.OTP_VERIFICATION)
 const KnowledgeBase = mongoose.model(models.KNOWLEDGE_BASE)
 const EmailVerification = mongoose.model(models.EMAILVERIFICATION)
-
+const ForgotPasswordToken = mongoose.model(models.FORGOT_PASSWORD_TOKEN)
 const saltRounds = 10;
 
 // Controller for registering the user in knowledgeBase takes email, password, confirmPassword, category as req params and returns the registered user details also send the email for user registeration
@@ -129,7 +129,7 @@ module.exports.signIn = async (req, res) => {
     if (userOtpVerificationStatus && userOtpVerificationStatus.isVerifyedStatus) {
       const result = await UserProfile.checkUserAvalibilty(email)
       if (!result) {
-        return res.send({ statusCode: 400, message: messages.EMAIL_NOT_FOUND });
+        return res.send({ statusCode: 400, message: messages.USER_NOT_FOUND });
       }
       var user = { ...result._doc }
       const isValide = await comparedHased(password, result.password);
@@ -383,3 +383,120 @@ module.exports.viewUserProfile = async (req, res) => {
     });
   }
 }
+
+// Controller for change the user password after login
+module.exports.changePassword = async (req, res) => {
+  try {
+    const userId = req.userData._id;
+    const { oldPassword, newPassword } = req.validatedParams;
+    if (oldPassword === newPassword) {
+      return res.send({
+        statusCode: "400",
+        message: messages.INVALID_PASSWORD,
+      });
+    }
+    const userProfile = await UserProfile.getUserDataByUserId(userId)
+    if (userProfile) {
+      const isValide = await comparedHased(oldPassword, userProfile.password);
+      if (isValide) {
+        const updatedResult = await UserProfile.updatePassword({ userId: userId, newPassword: getHasedPassword(newPassword, saltRounds) })
+        if (updatedResult) {
+          return res.send({
+            statusCode: 200,
+            message: messages.USER_PASSWORD_CHANGED,
+            data: updatedResult,
+          });
+        }
+        else {
+          return res.json({ statusCode: 400, message: messages.USER_PASSWORD_CHANGING_FAILS })
+        }
+      } else {
+        return res.send({
+          statusCode: 400,
+          message: messages.PASSWORD_NOT_MATCHED
+        });
+      }
+    } else {
+      return res.send({
+        statusCode: 400,
+        message: messages.NO_RECORD_FOUND,
+      });
+    }
+  } catch (error) {
+    return res.send({
+      statusCode: 500,
+      message: error.message,
+    });
+  }
+};
+// Controller for forgot user password
+module.exports.forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.validatedParams;
+    const userProfile = await UserProfile.checkUserAvalibilty(email);
+    if (!userProfile) {
+      return res.send({
+        statusCode: 400,
+        message: messages.USER_NOT_FOUND,
+      });
+    }
+    const token = generateRandomString({ length: 128 });
+    const generatedToken = await ForgotPasswordToken.addToken({ token: token, userId: userProfile._id })
+    if (generatedToken) {
+      const link = `${APP_URL_FRONT}/forgotPasswordVerify?token=${token}&userId=${userProfile._id}`;
+      let shortUrl = link;
+      var obj = {};
+      obj.link = shortUrl;
+      obj.email = email;
+      let mediaType = ['MAIL'];
+      await Notification.createNotification(obj, "", enums.NOTIFICATION_EVENT.FORGOT_PASSWORD, mediaType);
+      return res.send({
+        statusCode: 200,
+        message: messages.FORGET_PASSWORD_EMAIL_SENT,
+      });
+    } else {
+      return res.send({
+        statusCode: 400,
+        message: messages.FORGET_PASSWORD_EMAIL_SENT_FAILS,
+      });
+    }
+  } catch (error) {
+    return res.send({
+      statusCode: 500,
+      message: error.message,
+    });
+  }
+};
+
+// Controller to verify forgot password
+module.exports.forgetPasswordVerify = async (req, res) => {
+  try {
+    const { token, userId, password } = req.validatedParams;
+    const userProfile = await UserProfile.getUserDataByUserId(userId);
+    if (!userProfile) {
+      return res.send({
+        statusCode: 400,
+        message: messages.INVALID_USERID,
+      });
+    }
+    const result = await ForgotPasswordToken.getTokenVerification({ userId: userId, token: token })
+    if (result) {
+      await UserProfile.updatePassword({ userId: userId, newPassword: getHasedPassword(password, saltRounds) })
+      await ForgotPasswordToken.findTokenAndRemove(result._id)
+      return res.send({
+        statusCode: 200,
+        message: messages.USER_PASSWORD_CHANGED,
+      });
+    } else {
+      return res.send({
+        statusCode: 400,
+        message: messages.INVALID_TOKEN,
+      });
+    }
+  } catch (error) {
+    return res.send({
+      statusCode: 500,
+      message: error.message,
+    });
+  }
+};

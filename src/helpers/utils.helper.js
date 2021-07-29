@@ -1,5 +1,6 @@
 const debug = require("debug")("app:utilsHelper");
 const { v4: uuidv4 } = require("uuid");
+const randomString = require("random-base64-string");
 
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -30,6 +31,10 @@ module.exports.checkEnvVariables = async () => {
 
 exports.comparedHased = async (password, hasedPass) => {
   return await bcrypt.compare(password, hasedPass);
+};
+
+module.exports.generateRandomString = ({ length = 12 } = {}) => {
+  return randomString(length);
 };
 
 module.exports.generateUniqueId = ({ prefix = "" } = {}) => {

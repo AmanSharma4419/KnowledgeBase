@@ -57,3 +57,28 @@ module.exports.updateUserProfile = Joi.object({
   employeeId: Joi.string().optional().trim().error(new Error(messages.INVALID_EMPLOYEEID)),
   mobileNumber: Joi.string().regex(/^\d+$/).min(6).max(13).optional().error(new Error(messages.INVALID_MOBILE_NUMBER)),
 });
+
+module.exports.changePassword = Joi.object({
+  oldPassword: Joi.string()
+    .trim()
+    .required()
+    .error(new Error(messages.INVALID_PASSWORD)),
+  newPassword: Joi.string()
+    .trim()
+    .required()
+    .error(new Error(messages.INVALID_PASSWORD)),
+});
+
+module.exports.forgotPassword = Joi.object({
+  email: Joi.string()
+    .email()
+    .required()
+    .trim()
+    .error(new Error(messages.INVALID_EMAIL)),
+});
+
+module.exports.forgetPasswordVerify = Joi.object({
+  userId: Joi.string().required().trim().error(new Error(messages.INVALID_USERID)),
+  token: Joi.string().required().trim().error(new Error(messages.INVALID_TOKEN)),
+  password: Joi.string().required().trim().description("Password").error(new Error(messages.PASSWORD_LENGTH_REQUIRED)),
+});

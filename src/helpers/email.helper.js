@@ -4,6 +4,7 @@ const debug = require('debug')('app:emailHelper');
 const { enums, models } = require('../constants/index');
 const userRegistrationTemplate = require('../../emailTemplate/userRegistration');
 const userLoginTemplate = require('../../emailTemplate/userLogin')
+const userForgotPasswordTemplate = require('../../emailTemplate/forgot.password')
 
 const { EMAIL_SENDER_NAME, SENDER_EMAIL, SENDER_API_KEY, SMTP_PASSWORD, SMTP_HOST, SMTP_SENDER, SMTP_PORT, SMTP_SENDER_NAME } = require('./../appConfig');
 const mongoose = require("mongoose");
@@ -17,6 +18,8 @@ exports.sendEmail = async function (to, subject, data, event, replyTo = '') {
     template = userRegistrationTemplate.template(data);
   } else if (event === enums.NOTIFICATION_EVENT.USER_LOGIN) {
     template = userLoginTemplate.template(data);
+  } else if (event === enums.NOTIFICATION_EVENT.FORGOT_PASSWORD) {
+    template = userForgotPasswordTemplate.template(data);
   }
 
   let MailerOption = await ConfigModel.getMailerOption()

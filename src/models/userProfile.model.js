@@ -29,7 +29,7 @@ class UserDetailsRec extends Model {
     return this.findByIdAndUpdate(userId, userProfileInfo, { new: true });
   }
   static async getUserDataByUserId(userId) {
-    return this.findById(userId, { plainPassword: 0, password: 0 });
+    return this.findById(userId, { plainPassword: 0, });
   }
   static async createUser(userInfo) {
     return this.create(userInfo);
@@ -39,6 +39,9 @@ class UserDetailsRec extends Model {
   }
   static async userLogin({ email, password }) {
     return this.findOne({ $and: [{ email: email }, { password: password }] });
+  }
+  static async updatePassword({ userId, newPassword }) {
+    return this.findByIdAndUpdate(userId, { password: newPassword }, { new: true });
   }
 }
 

@@ -325,4 +325,75 @@ securityDefinitions:
               type: string            
       responses:
         200:
+          description: OK 
+
+/api/v1/changePassword:
+    post: 
+      security:
+        - Bearer: []    
+      tags:
+        - "Dashboard"
+      summary: This endpoint change the user password according to his requirement
+      produces:
+        - application/json
+      consumes:
+        - application/json  
+      parameters:
+      - in: body
+        name: passwordInfo      
+        schema : 
+           type: object
+           properties: 
+            oldPassword:
+              type: string 
+            newPassword:
+              type: string                 
+      responses:
+        200:
+          description: OK 
+    
+/api/v1/forgotPassword:
+    post:    
+      tags:
+        - "Login"
+      summary: Return the reset password link to the provided email
+      produces:
+        - application/json
+      consumes:
+        - application/json  
+      parameters:
+      - in: body
+        name: passwordInfo      
+        schema : 
+           type: object
+           properties: 
+            email:
+              type: string                 
+      responses:
+        200:
           description: OK
+
+/api/v1/forgetPasswordVerify:
+    post:       
+      tags:
+        - "Login"
+      summary: This endpoint update the user password according to his requirement
+      produces:
+        - application/json
+      consumes:
+        - application/json  
+      parameters:
+      - in: body
+        name: passwordInfo      
+        schema : 
+           type: object
+           properties: 
+            userId:
+              type: string 
+            token:
+              type: string
+            password:
+              type: string                  
+      responses:
+        200:
+          description: OK 
