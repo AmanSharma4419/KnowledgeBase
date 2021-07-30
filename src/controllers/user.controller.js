@@ -16,6 +16,7 @@ const OtpVerification = mongoose.model(models.OTP_VERIFICATION)
 const KnowledgeBase = mongoose.model(models.KNOWLEDGE_BASE)
 const EmailVerification = mongoose.model(models.EMAILVERIFICATION)
 const ForgotPasswordToken = mongoose.model(models.FORGOT_PASSWORD_TOKEN)
+const PublishKnowledgeAccessTo = mongoose.model(models.PUBLISH_KNOWLEDGE_ACCESS)
 const saltRounds = 10;
 
 // Controller for registering the user in knowledgeBase takes email, password, confirmPassword, category as req params and returns the registered user details also send the email for user registeration
@@ -175,14 +176,29 @@ module.exports.signIn = async (req, res) => {
 module.exports.createKnowledgeBase = async (req, res) => {
   try {
     const { _id, email } = req.userData;
-    const { category, topic, knowledgeBase, isPublished } = req.validatedParams
+    const { category, topic, knowledgeBase, isPublished, accessTo } = req.validatedParams
     const knowledgeBaseInfo = { userId: _id, userEmail: email, category: category, topic: topic, knowledgeBase: knowledgeBase, isPublished: isPublished }
     const result = await KnowledgeBase.createKnowledgeBase(knowledgeBaseInfo)
-    return res.send({
-      statusCode: 200,
-      message: messages.KNOWLEGE_BASE_CREATED,
-      data: result,
-    });
+    if (result) {
+      if (isPublished == true) {
+        const accessToUsers = [{ userId: _id, email: email, postId: result._id, isOwner: true }]
+        accessTo && accessTo.map((v, i) => {
+          const accesToJsonData = { userId: v.userId, email: v.email, postId: result._id }
+          accessToUsers.push(accesToJsonData)
+        })
+        await PublishKnowledgeAccessTo.addAccessToViewPost(accessToUsers)
+      }
+      return res.send({
+        statusCode: 200,
+        message: messages.KNOWLEGE_BASE_CREATED,
+        data: result,
+      });
+    } else {
+      return res.send({
+        statusCode: 400,
+        message: messages.KNOWLEGE_BASE_CREATION_FAILS,
+      });
+    }
   } catch (error) {
     return res.send({
       statusCode: 500,

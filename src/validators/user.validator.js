@@ -23,7 +23,8 @@ module.exports.createKnowledgeBase = Joi.object({
   topic: Joi.string().required().trim().description("topic").error(new Error(messages.INVALID_TOPIC)),
   category: Joi.string().required().trim().error(new Error(messages.INVALID_CATEGORY)),
   knowledgeBase: Joi.string().required().trim().description("knowledgeBase").error(new Error(messages.INVALID_KNOWLEDGEBASE)),
-  isPublished: Joi.boolean().optional().description("isPublished").error(new Error(messages.INVALID_ISPUBLISHED)),
+  isPublished: Joi.boolean().required().description("isPublished").error(new Error(messages.INVALID_ISPUBLISHED)),
+  accessTo: Joi.array().optional().description("accessTo").error(new Error(messages.INVALID_ACCESSTO)),
 });
 
 module.exports.updateKnowledgeBase = Joi.object({

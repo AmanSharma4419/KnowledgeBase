@@ -6,6 +6,7 @@ module.exports = {
   INVALID_TOPIC: "Invalid Topic",
   INVALID_CATEGORY: "Invalid Category",
   INVALID_ISPUBLISHED: "Invalid Ispublished",
+  INVALID_ACCESSTO: "Invalid acessTo",
   INVALID_KNOWLEDGEBASE: "Invalid knowledgebase",
   SIGNUP_SUCESS: "Signup success",
   EMAIL_NOT_AVAILABLE: "Email already exist",
@@ -19,6 +20,7 @@ module.exports = {
   PASSWORD_NOT_MATCHED: "User password not matched",
   LOGIN_SUCCESS: "Login success",
   KNOWLEGE_BASE_CREATED: "Knowledge base created",
+  KNOWLEGE_BASE_CREATION_FAILS: "Knowledge base created fails",
   KNOWLEGE_BASE_UPDATED: "Knowledge base updated",
   INVALID_PAGE: "Invalid Page",
   INVALID_LIMIT: "Invalid Limit",
@@ -41,7 +43,7 @@ module.exports = {
   USER_PASSWORD_CHANGING_FAILS: "User password changing fails",
   FORGET_PASSWORD_EMAIL_SENT: "Forgot password email sent successfully",
   FORGET_PASSWORD_EMAIL_SENT_FAILS: "Forgot password email sent fails",
-  INVALID_TOKEN:"Invalid token",
-  INVALID_USERID:"Invalid userId",
-  
+  INVALID_TOKEN: "Invalid token",
+  INVALID_USERID: "Invalid userId",
+
 }
