@@ -8,7 +8,8 @@ const {
   comparedHased,
   generateRandomString
 } = require("./../helpers/utils.helper");
-const { APP_URL_FRONT } = require("./../appConfig")
+const { APP_URL_FRONT } = require("./../appConfig");
+const { required } = require("@hapi/joi");
 // Models of the schemas
 const UserProfile = mongoose.model(models.USER_PROFILE);
 const Category = mongoose.model(models.CATEGORY);
@@ -28,6 +29,7 @@ module.exports.signUp = async (req, res) => {
     emails.map(v => {
       return requriedEmail.push(v.email)
     })
+    console.log(requriedEmail)
     if (new RegExp(requriedEmail.join("|")).test(email)) {
       const isUserExisted = await UserProfile.checkEmailAvaliabilty(email)
       if (isUserExisted.length > 0) {

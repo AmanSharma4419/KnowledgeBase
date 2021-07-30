@@ -22,7 +22,6 @@ class PublishKnowledgeAccess extends Model {
     static async addAccessToViewPost(knowledgeBaseInfo) {
         return this.insertMany(knowledgeBaseInfo);
     }
-
 }
 
 schema.loadClass(PublishKnowledgeAccess);
