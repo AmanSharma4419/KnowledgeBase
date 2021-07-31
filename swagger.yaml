@@ -1,0 +1,415 @@
+openapi: 3.0.0
+info:
+  title: Knowledge Base API
+  description: Knowledge base api description.
+  version: 0.1.9
+servers:
+  - url: http://localhost:3001
+    description: Optional server description, e.g. Main (production) server
+  - url: http://localhost:3001
+    description: Optional server description, e.g. Internal staging server for testing
+tags:
+  - name: "Register"
+    description: "User Registration"
+  - name: "Login"
+    description: "User Login"
+  - name: "View Knowledge Base"
+    description: "View All Knowledge Base Topic By Category"
+  - name: "Dashboard"
+    description: " All Knowledge Base Dashboard Endpoints"
+  - name: "UserProfile"
+    description: " All Endpoints For Update,Get User Profile"
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: authorization
+    in: header
+
+/api/v1/register:
+    post:
+      tags:
+        - "Register"
+      summary: Returns the registered user data
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+      - in: body
+        name: userInfo  
+        schema : 
+           type: object
+           properties: 
+            email:
+                 type: string 
+            password:
+                 type: string
+            confirmPassword:
+                 type: string
+            category:
+                 type: string
+      responses:
+        200:
+          description: OK
+
+/api/v1/verifyOtp:
+    post:
+      tags:
+        - "Register"
+      summary: Returns the otp verification status
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+      - in: body
+        name: otpInfo  
+        schema : 
+           type: object
+           properties: 
+            userId:
+                 type: string 
+            otp:
+                 type: string       
+      responses:
+        200:
+          description: OK
+/api/v1/login:
+    post:
+      tags:
+        - "Login"
+      summary: Returns the loggedIn user details
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+      - in: body
+        name: userInfo  
+        schema : 
+           type: object
+           properties: 
+            email:
+                 type: string 
+            password:
+                 type: string       
+      responses:
+        200:
+          description: OK
+
+/api/v1/categoryList:
+    get:
+      tags:
+        - "CategoryList"
+      summary: Returns the category list
+      produces:
+        - application/json
+      consumes:
+        - application/json        
+      responses:
+        200:
+          description: OK
+
+/api/v1/getAllTopicListByCategory:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - "View Knowledge Base"
+      summary: Returns the details topicList by category
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+      - in: body
+        name: category      
+        schema : 
+           type: object
+           properties: 
+            category:
+              type: string 
+      responses:
+        200:
+          description: OK
+
+/api/v1/createKnowledgeBase:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - "Dashboard"
+      summary:  Returns the created KnowledgeBase details
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+      - in: body
+        name: knowledgebaseInfo      
+        schema : 
+           type: object
+           properties: 
+            topic:
+              type: string
+            category:
+              type: string 
+            knowledgeBase:
+              type: string
+            isPublished:
+              type: string
+      responses:
+        200:
+          description: OK
+
+/api/v1/updateKnowledgeBase/{id}:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - "Dashboard"
+      summary: Updates the knowledge base according to id
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+      - in: body
+        name: knowledgebaseInfo      
+        schema : 
+           type: object
+           properties: 
+            topic:
+              type: string
+            category:
+              type: string 
+            knowledgeBase:
+              type: string
+            isPublished:
+              type: string
+      - name: "id"
+        in: "path"
+      responses:
+        200:
+          description: OK 
+
+/api/v1/getKnowledgeBaseById/{id}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - "Dashboard"
+      summary: Returns the knowedge base record according to the id
+      produces:
+        - application/json
+      consumes:
+        - application/json     
+      parameters:
+        - name: id
+          in: path   
+      responses:
+        200:
+          description: OK
+    
+/api/v1/getAllViewListByTopic:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - "View Knowledge Base"
+      summary: Returns the details viewList by topic and category
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+      - in: body
+        name: viewInfo      
+        schema : 
+           type: object
+           properties: 
+            pageNo:
+              type: integer 
+            limit:
+              type: integer
+            category:
+              type: string 
+            topic:
+              type: string
+      responses:
+        200:
+          description: OK   
+
+/api/v1/getAllDraftList:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - "Dashboard"
+      summary: Returns the details viewList by topic and category
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+      - in: body
+        name: draftInfo      
+        schema : 
+           type: object
+           properties: 
+            pageNo:
+              type: integer 
+            limit:
+              type: integer
+      responses:
+        200:
+          description: OK       
+
+/api/v1/viewUserProfile/{id}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - "UserProfile"
+      summary: Returns the userInfo according to the id in the viewList
+      produces:
+        - application/json
+      consumes:
+        - application/json     
+      parameters:
+        - name: id
+          in: path   
+      responses:
+        200:
+          description: OK 
+    
+/api/v1/getUserProfile:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - "UserProfile"
+      summary: Returns the userInfo according to the id by jwt token
+      produces:
+        - application/json
+      consumes:
+        - application/json  
+      responses:
+        200:
+          description: OK
+
+/api/v1/updateUserProfile:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - "UserProfile"
+      summary: Returns the updated userInfo according to the id by jwt token
+      produces:
+        - application/json
+      consumes:
+        - application/json  
+      parameters:
+      - in: body
+        name: profileInfo      
+        schema : 
+           type: object
+           properties: 
+            firstName:
+              type: string 
+            lastName:
+              type: string
+            employeeId:
+              type: string
+            mobileNumber:
+              type: string            
+      responses:
+        200:
+          description: OK 
+
+/api/v1/changePassword:
+    post: 
+      security:
+        - Bearer: []    
+      tags:
+        - "Dashboard"
+      summary: This endpoint change the user password according to his requirement
+      produces:
+        - application/json
+      consumes:
+        - application/json  
+      parameters:
+      - in: body
+        name: passwordInfo      
+        schema : 
+           type: object
+           properties: 
+            oldPassword:
+              type: string 
+            newPassword:
+              type: string                 
+      responses:
+        200:
+          description: OK 
+    
+/api/v1/forgotPassword:
+    post:    
+      tags:
+        - "Login"
+      summary: Return the reset password link to the provided email
+      produces:
+        - application/json
+      consumes:
+        - application/json  
+      parameters:
+      - in: body
+        name: passwordInfo      
+        schema : 
+           type: object
+           properties: 
+            email:
+              type: string                 
+      responses:
+        200:
+          description: OK
+
+/api/v1/forgetPasswordVerify:
+    post:       
+      tags:
+        - "Login"
+      summary: This endpoint update the user password according to his requirement
+      produces:
+        - application/json
+      consumes:
+        - application/json  
+      parameters:
+      - in: body
+        name: passwordInfo      
+        schema : 
+           type: object
+           properties: 
+            userId:
+              type: string 
+            token:
+              type: string
+            password:
+              type: string                  
+      responses:
+        200:
+          description: OK 
+
+/api/v1/listUserProfile:
+    get:       
+      tags:
+       - "Dashboard"
+      security:
+      - Bearer: [] 
+      - "Login"
+      summary: This results all the registered users
+      produces:
+        - application/json
+      consumes:
+        - application/json                 
+      responses:
+        200:
+          description: OK 

@@ -1,0 +1,1 @@
+require('./migrateToSQL').init()
